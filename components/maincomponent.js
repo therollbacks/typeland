@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'white',
     borderWidth: 5,
-    borderRadius: 2,
+    borderRadius: 10,
     color: 'white'
   },
 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'white',
     borderWidth: 5,
-    borderRadius: 2,
+    borderRadius: 10,
     color: 'white'
 
   },
