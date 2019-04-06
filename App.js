@@ -40,8 +40,20 @@ import HomeComponent from "./components/homecomponent"
 
 const RootStack = createStackNavigator(
   {
-    Home: HomeComponent,
-    Chomp: ChompComponent,
+    Home: {
+      screen: HomeComponent,
+      navigationOptions: {
+        title: 'home',
+        header: null
+      },
+    },
+    Chomp:  {
+      screen: ChompComponent,
+      navigationOptions: {
+        title: 'chomp',
+        header: null
+      }
+    },
     Details: MainComponent,
   },
   {
