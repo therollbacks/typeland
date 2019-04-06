@@ -6,17 +6,30 @@ import { Font, AppLoading } from "expo";
 import { createStackNavigator, createAppContainer } from 'react-navigation'; // Version can be specified in package.json
 import ChompComponent from "./chompcomponent"
 
-export default class MainComponent extends React.Component {
+export default class HomeComponent extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  _onPressButton() {
+    console.log('You tapped the button!')
+  }
 
     render() {
+      let imageBack = require("./back.jpg");
     
     return (
-      <View>
-        <Text> tmain component or something </Text>
+      <View >
+       <ImageBackground source={imageBack} style={{width: '100%', height: '100%'}}>
+
+        <Text style = {styles.openText}> TypeLand </Text>
+          <View style = {styles.button}>
+            <Button onPress={() => this.props.navigation.navigate('Chomp')} color="white" title="Play"/>
+          </View>
+          <View style = {styles.button2}>
+            <Button onPress={() => this.props.navigation.navigate('Details')} color="white" title="How to play"/>
+          </View>
+        </ImageBackground>
       </View>
     );
   }

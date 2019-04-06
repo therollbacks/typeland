@@ -18,7 +18,7 @@ export default class ChompComponent extends React.Component {
         
         <Button
           title="Exit"
-          onPress={() => this.props.navigation.push('Details')}
+          onPress={() => this.props.navigation.push('Home')}
         />
         </ImageBackground>
       </View>
