@@ -15,11 +15,6 @@ export default class ChompComponent extends React.Component {
 
         <Text>Add game screen here</Text>
         
-        
-        <Button
-          title="Exit"
-          onPress={() => this.props.navigation.push('Details')}
-        />
         </ImageBackground>
       </View>
     );
