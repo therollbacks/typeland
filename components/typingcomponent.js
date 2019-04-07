@@ -70,7 +70,7 @@ import PropTypes from 'prop-types';
     {
         return(
             <View style = {{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-                <Text ref = "animatedText" style = {{ color: this.props.color, fontSize: this.props.textSize, textAlign: 'center' }}>{ this.state.text }                
+                <Text ref = "animatedText" style = {{ color: this.props.color, fontWeight: this.props.textWeight, fontSize: this.props.textSize, textAlign: 'center' }}>{ this.state.text }                
                     <Text style = {{ color: this.state.blinking_cursor_color }}>|</Text>
                 </Text>
             </View>

@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 6264,
+  "expoServerNgrokUrl": "https://a8-wwn.anonymous.typeland.exp.direct",
+  "packagerNgrokUrl": "https://packager.a8-wwn.anonymous.typeland.exp.direct",
+  "ngrokPid": 4592
 }

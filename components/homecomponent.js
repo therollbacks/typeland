@@ -84,9 +84,12 @@
 // });
 
 import React, { Component } from 'react';
-import { Text, View, Platform, StyleSheet, ImageBackground, Button} from 'react-native';
+import { Text, View, Platform, StyleSheet, ImageBackground, Button, Overlay, Dimensions} from 'react-native';
 import PropTypes from 'prop-types';
 import TypingText from "./typingcomponent.js"
+
+let height =  Dimensions.get('window').height
+let width=  Dimensions.get('window').width
 
 
 
@@ -95,13 +98,13 @@ export default class TypingTextDef extends Component
    constructor(props)
     {
         super(props);
-        this.state = { timePassed: false, opacity: 0}
+        this.state = { timePassed: false, opacity: 0, isVisible: true}
     }
 
     componentDidMount() {
       setTimeout(() => {
         this.setState({ timePassed: true });
-      }, 7000 );
+      }, 2000 );
     }
     render()
     {
@@ -112,17 +115,18 @@ export default class TypingTextDef extends Component
         return(
             <View>
                 <ImageBackground source={imageBack} style={{width: '100%', height: '100%'}}>
+                  <View style = {styles.overlay}>
+                    <View style = {{marginTop: 50, width: 300, left: 50, top: height/2 - 180}}>
+                      <TypingText
+                            text = "TypeLand. Type good to prevent feeding the monster. Type bad will feed him. Monster is hungry. "
+                        />
+                    </View>
 
-                <View style = {{marginTop: 50, width: 300, left: 50, top: 55}}>
-                  <TypingText
-                        text = "TypeLand. Type good to prevent feeding the monster. Type bad will feed him. Monster is hungry. "
-                    />
-                </View>
-
-                { timePassed && <View style = {styles.button}>
-                    <Button onPress={() => this.props.navigation.navigate('Chomp')} color="white" title="Play"/>
-                  </View>
-                  }
+                    { timePassed && <View style = {styles.button}>
+                        <Button onPress={() => this.props.navigation.navigate('Chomp')} color="#d41302" title="Play"/>
+                      </View>
+                      }
+                    </View>
                  
                 </ImageBackground>
             </View>
@@ -147,18 +151,18 @@ const styles = StyleSheet.create(
     left: 60,
     marginBottom: 30,
     width: 260,
-    top: 300,
+    top: height/2 + 70,
     alignItems: 'center',
-    borderColor: 'white',
+    borderColor: '#d41302',
     borderWidth: 5,
     borderRadius: 10,
-    color: 'white'
+    color: '#d41302'
   },
 
   button2: {
     position: 'absolute', 
     left: 60,
-    marginBottom: 30,
+    marginBottom: 50,
     width: 260,
     top: 370,
     alignItems: 'center',
@@ -168,6 +172,15 @@ const styles = StyleSheet.create(
     color: 'white'
 
   },
+
+  overlay:{
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.7)'
+  }
 
 });
  
@@ -183,9 +196,9 @@ TypingText.propTypes =
 TypingText.defaultProps =
 {
   text: "Default Typing Animated Text.",
-  color: "black",
+  color: "#d41302",
   textWeight: 'bold',
   textSize: 30,
-  typingAnimationDuration: 50,
+  typingAnimationDuration: 30,
   blinkingCursorAnimationDuration: 190
 }
