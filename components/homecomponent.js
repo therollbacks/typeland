@@ -116,9 +116,9 @@ export default class TypingTextDef extends Component
             <View>
                 <ImageBackground source={imageBack} style={{width: '100%', height: '100%'}}>
                   <View style = {styles.overlay}>
-                    <View style = {{marginTop: 50, width: 300, left: 50, top: height/2 - 180}}>
+                    <View style = {{marginTop: 50, marginLeft: 28, marginRight: 28, top: height/2 - 180}}>
                       <TypingText
-                            text = "TypeLand. Type good to prevent feeding the monster. Type bad will feed him. Monster is hungry. "
+                            text = "TypeLand. Type good to prevent feeding bubba. Type bad will feed bubba. Bubba is hungry. "
                         />
                     </View>
 
@@ -148,9 +148,9 @@ const styles = StyleSheet.create(
 
   button: {
     position: 'absolute', 
-    left: 60,
+    left: width/4,
     marginBottom: 30,
-    width: 260,
+    width: 170,
     top: height/2 + 70,
     alignItems: 'center',
     borderColor: '#d41302',
@@ -179,7 +179,7 @@ const styles = StyleSheet.create(
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.7)'
+    backgroundColor: 'rgba(0,0,0,0.85)'
   }
 
 });
