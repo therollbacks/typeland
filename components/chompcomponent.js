@@ -12,19 +12,32 @@ export default class ChompComponent extends React.Component {
     constructor(props) {
       super(props);
       this.state = { typedWord: '',
+                     currentWord: '',
                      difficultyWords: 1,
-                     difficultyLength: 4
+                     difficultyLength: 4,
+                     score: 0
                    };
     };
 
     _nextWords = () => {
-      var currentPhrase = randomWords({exactly:1, wordsPerString:this.state.difficultyWords, maxLength: this.state.difficultyLength})
+      var randWords = randomWords({exactly:1, wordsPerString:this.state.difficultyWords, maxLength: this.state.difficultyLength})
       this.setState({
-          typedWord: currentPhrase[0]
+          currentWord: randWords[0]
         });
     };
 
+    _checkWords = () => {
+      if (this.state.currentWord == this.state.typedWord) {
 
+        this.setState({
+          typedWord: '',
+          score: this.state.score + 1
+        });
+
+        this._nextWords
+
+      }
+    }
 
     render() {
         let imageGameBack = require("./gameback.jpg");
@@ -32,10 +45,12 @@ export default class ChompComponent extends React.Component {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
 
-        <Text style={{left: 25, top: 75, color: 'white'}}>{this.state.typedWord}</Text>
+        <Text style={{left: 25, top: 75, color: 'white'}}>Current word: {this.state.currentWord}</Text>
+        <Text style={{left: 25, top: 100, color: 'white'}}>Typed word: {this.state.typedWord}</Text>
+        <Text style={{left: 25, top: 125, color: 'white'}}>Score: {this.state.score}</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={(typedWord) => this.setState({typedWord})}
+          onChangeText={(typedWord) => { this.setState({typedWord}); {this._checkWords} } }
           value={this.state.typedWord}
         />
 
@@ -60,7 +75,7 @@ const styles = StyleSheet.create({
     textInput: {
       height: 40,
       width: 300,
-      top: 100,
+      top: 200,
       left: 25,
       borderColor: 'gray',
       borderWidth: 1,
@@ -68,7 +83,7 @@ const styles = StyleSheet.create({
       color: 'white'
     },
     button: {
-      top: 150,
+      top: 250,
       width: 200,
       left: 75
     },
