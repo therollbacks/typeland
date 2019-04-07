@@ -57,15 +57,21 @@ export default class ChompComponent extends React.Component {
     }
 
     render() {
-        let imageGameBack = require("./gameback.jpg");
+        let imageGameBack = require("./back2.png");
+        const { navigation } = this.props;
+        const someId = navigation.getParam('someId', 'NO-ID');
+        const someName = navigation.getParam('someName', 'No title');
+        console.log(someName)
+
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
 
-        <Text style={{left: 25, top: 75, color: 'white'}}>Current word: {this.state.currentWord}</Text>
-        <Text style={{left: 25, top: 100, color: 'white'}}>Typed word: {this.state.typedWord}</Text>
-        <Text style={{left: 25, top: 125, color: 'white'}}>Score: {this.state.score}</Text>
-        <Text style={{left: 25, top: 150, color: 'white'}}>Bad score: {this.state.badScore}</Text>
+        <Text style={{left: 25, top: 75, color: 'white', fontWeight: 'bold', fontSize: 12}}>Player: {someName}</Text>
+        <Text style={{left: 25, top: 80, color: 'white', fontWeight: 'bold', fontSize: 12}}>Current word: {this.state.currentWord}</Text>
+        <Text style={{left: 25, top: 85, color: 'white', fontWeight: 'bold', fontSize: 12}}>Typed word: {this.state.typedWord}</Text>
+        <Text style={{left: 25, top: 90, color: 'white', fontWeight: 'bold', fontSize: 12}}>Score: {this.state.score}</Text>
+        <Text style={{left: 25, top: 95, color: 'white', fontWeight: 'bold', fontSize: 12}}>Bad score: {this.state.badScore}</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={typedWord => this._checkWords(typedWord)}

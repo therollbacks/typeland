@@ -107,7 +107,7 @@ export default class TypingTextDef extends Component
    constructor(props)
     {
         super(props);
-        this.state = { timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180,  dirty: false }
+        this.state = { timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180,  dirty: false, username: ''}
     }
 
     _getUserName = () => {
@@ -149,7 +149,7 @@ export default class TypingTextDef extends Component
                       </View>
 
                       { timePassed && <View style = {[styles.button, {opacity: this.state.butOpacity}]}>
-                          <Button onPress={this._getUserName}  color="#d41302" title="Play"/>
+                          <Button onPress={this._getUserName}  color="#d41302" title="Start"/>
                         </View>
                         }
                       </View>
@@ -158,12 +158,29 @@ export default class TypingTextDef extends Component
                           labelStyle={styles.labelInput}
                           inputStyle={styles.input}
                           style={styles.formInput}
+                       
+                          onChangeText={(text) => this.setState({username: text})}
                           onBlur={this.onBlur}
                         >Name</FloatingLabel>
-                        </KeyboardAvoidingView>
-                    
-                      
-                    
+                      </KeyboardAvoidingView>
+
+                      <View style = {{ position: 'absolute', bottom: height - 500, opacity: this.state.barOpacity, width: 170, left: width/4,  borderColor: '#d41302',
+                                  borderWidth: 5,
+                                  borderRadius: 10,}}>
+
+                      <Button
+                        title="Play"
+                        color="#d41302"
+                        style ={{fontWeight: 'bold'}}
+                        onPress={() => {
+                          this.props.navigation.navigate('Chomp', {
+                          someId: 100,
+                          someName: this.state.username
+                        });
+                      }}/>
+
+
+                      </View>
                     </View>
                  
                 </ImageBackground>
@@ -198,16 +215,16 @@ const styles = StyleSheet.create(
   },
 
   labelInput: {
-    color: 'white',      
+    color: '#d41302',      
   },
   formInput: {    
     borderBottomWidth: 1.5, 
     marginLeft: 20,
-    borderColor: '#333', 
+    borderColor: '#d41302', 
   },
   input: {
     borderWidth: 0,
-    color: 'white',      
+    color: '#d41302',      
 
   },
   button2: {
