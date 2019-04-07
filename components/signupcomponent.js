@@ -28,6 +28,7 @@ export default class SignupView extends Component {
       console.log('#####: onBlur');
     }
  
+  
     _getUserName = () => {
       console.log("pressed play")
       this.setState({

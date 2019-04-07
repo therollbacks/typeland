@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Image, Alert, Dimensions, ImageBackground} from 'react-native';
+import {StyleSheet, AsyncStorage, Text, View, TextInput, Button, TouchableHighlight, Image, Alert, Dimensions, ImageBackground} from 'react-native';
 import PropTypes from 'prop-types';
 import TypingText from "./typingcomponent.js"
 import FloatingLabelInput from './namecomponent.js'
@@ -36,9 +36,10 @@ export default class LoginView extends Component {
         barOpacity: 1,
         loginHeight: 70
       });
-
-
     }
+
+
+
     componentDidMount() {
       setTimeout(() => {
         this.setState({ timePassed: true });
