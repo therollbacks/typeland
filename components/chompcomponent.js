@@ -22,6 +22,7 @@ export default class ChompComponent extends React.Component {
     };
 
     _nextWords = () => {
+        this.refs.myInput.focus();
         var randWords = randomWords({ exactly: 1, wordsPerString: this.state.difficultyWords, maxLength: this.state.difficultyLength })
         this.setState({
             currentWord: randWords[0]
@@ -62,11 +63,12 @@ export default class ChompComponent extends React.Component {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
 
-        <Text style={{left: 25, top: 75, color: 'white'}}>Current word: {this.state.currentWord}</Text>
-        <Text style={{left: 25, top: 100, color: 'white'}}>Typed word: {this.state.typedWord}</Text>
-        <Text style={{left: 25, top: 125, color: 'white'}}>Score: {this.state.score}</Text>
-        <Text style={{left: 25, top: 150, color: 'white'}}>Bad score: {this.state.badScore}</Text>
+        <Text style={{left: 25, top: 75, fontSize: 60, color: 'white'}}>{this.state.currentWord}</Text>
+        <Text style={{left: 25, top: 500, color: 'white'}}>Typed word: {this.state.typedWord}</Text>
+        <Text style={{left: 25, top: 525, color: 'white'}}>Score: {this.state.score}</Text>
+        <Text style={{left: 25, top: 550, color: 'white'}}>Bad score: {this.state.badScore}</Text>
         <TextInput
+          ref="myInput"
           style={styles.textInput}
           onChangeText={typedWord => this._checkWords(typedWord)}
           value={this.state.typedWord}
