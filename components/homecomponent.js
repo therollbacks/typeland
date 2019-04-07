@@ -84,28 +84,52 @@
 // });
 
 import React, { Component } from 'react';
-import { Text, View, Platform, StyleSheet, ImageBackground, Button, Overlay, Dimensions} from 'react-native';
+import { Text, View, StatusBar, Platform, StyleSheet, ImageBackground, Button, Overlay, Dimensions, KeyboardAvoidingView} from 'react-native';
 import PropTypes from 'prop-types';
 import TypingText from "./typingcomponent.js"
+import FloatingLabelInput from './namecomponent.js'
+var FloatingLabel = require('react-native-floating-labels');
+
 
 let height =  Dimensions.get('window').height
 let width=  Dimensions.get('window').width
 
 
 
+
 export default class TypingTextDef extends Component
 {
+
+    onBlur() {
+      console.log('#####: onBlur');
+    }
+ 
    constructor(props)
     {
         super(props);
-        this.state = { timePassed: false, opacity: 0, isVisible: true}
+        this.state = { timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180,  dirty: false, username: ''}
     }
 
+    _getUserName = () => {
+      console.log("pressed play")
+      this.setState({
+        curHeight: 20,
+        butOpacity: 0,
+        barOpacity: 1
+      });
+
+
+    }
     componentDidMount() {
       setTimeout(() => {
         this.setState({ timePassed: true });
       }, 2000 );
+
+
     }
+
+    handleTextChange = (newText) => this.setState({ value: newText });
+
     render()
     {
         let imageBack = require("./back.jpg");
@@ -116,16 +140,47 @@ export default class TypingTextDef extends Component
             <View>
                 <ImageBackground source={imageBack} style={{width: '100%', height: '100%'}}>
                   <View style = {styles.overlay}>
-                    <View style = {{marginTop: 50, marginLeft: 28, marginRight: 28, top: height/2 - 180}}>
-                      <TypingText
-                            text = "TypeLand. Type good to prevent feeding bubba. Type bad will feed bubba. Bubba is hungry. "
-                        />
-                    </View>
 
-                    { timePassed && <View style = {styles.button}>
-                        <Button onPress={() => this.props.navigation.navigate('Chomp')} color="#d41302" title="Play"/>
+                    <View style = {{top: this.state.curHeight}}>
+                      <View style = {{marginTop: 50, marginLeft: 28, marginRight: 28}}>
+                        <TypingText
+                              text = "TypeLand. Type good to prevent feeding bubba. Type bad will feed bubba. Bubba is hungry. "
+                          />
                       </View>
-                      }
+
+                      { timePassed && <View style = {[styles.button, {opacity: this.state.butOpacity}]}>
+                          <Button onPress={this._getUserName}  color="#d41302" title="Start"/>
+                        </View>
+                        }
+                      </View>
+                      <KeyboardAvoidingView style = {{ marginTop: 100, opacity: this.state.barOpacity, width: width/1.3, left: width/10}} behavior="padding" enabled>
+                        <FloatingLabel 
+                          labelStyle={styles.labelInput}
+                          inputStyle={styles.input}
+                          style={styles.formInput}
+                       
+                          onChangeText={(text) => this.setState({username: text})}
+                          onBlur={this.onBlur}
+                        >Name</FloatingLabel>
+                      </KeyboardAvoidingView>
+
+                      <View style = {{ position: 'absolute', bottom: height - 500, opacity: this.state.barOpacity, width: 170, left: width/4,  borderColor: '#d41302',
+                                  borderWidth: 5,
+                                  borderRadius: 10,}}>
+
+                      <Button
+                        title="Play"
+                        color="#d41302"
+                        style ={{fontWeight: 'bold'}}
+                        onPress={() => {
+                          this.props.navigation.navigate('Chomp', {
+                          someId: 100,
+                          someName: this.state.username
+                        });
+                      }}/>
+
+
+                      </View>
                     </View>
                  
                 </ImageBackground>
@@ -151,7 +206,7 @@ const styles = StyleSheet.create(
     left: width/4,
     marginBottom: 30,
     width: 170,
-    top: height/2 + 70,
+    top: 240,
     alignItems: 'center',
     borderColor: '#d41302',
     borderWidth: 5,
@@ -159,6 +214,19 @@ const styles = StyleSheet.create(
     color: '#d41302'
   },
 
+  labelInput: {
+    color: '#d41302',      
+  },
+  formInput: {    
+    borderBottomWidth: 1.5, 
+    marginLeft: 20,
+    borderColor: '#d41302', 
+  },
+  input: {
+    borderWidth: 0,
+    color: '#d41302',      
+
+  },
   button2: {
     position: 'absolute', 
     left: 60,
