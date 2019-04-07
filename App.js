@@ -6,13 +6,15 @@ import MainComponent from "./components/maincomponent"
 import ChompComponent from "./components/chompcomponent"
 // import HomeComponent from "./components/homecomponent"
 import TypingTextDef from "./components/homecomponent"
+import LoginView from "./components/testhomecomponent"
+import SignupView from "./components/signupcomponent"
 
 
 const RootStack = createStackNavigator(
   {
 
     Home: {
-      screen: TypingTextDef,
+      screen: LoginView,
       navigationOptions: {
         title: 'home',
         header: null
@@ -20,6 +22,13 @@ const RootStack = createStackNavigator(
     },
     Chomp:  {
       screen: ChompComponent,
+      navigationOptions: {
+        title: 'chomp',
+        header: null
+      }
+    },
+    Signup:  {
+      screen: SignupView,
       navigationOptions: {
         title: 'chomp',
         header: null
@@ -39,3 +48,5 @@ export default class App extends React.Component {
     return <AppContainer />;
   }
 }
+
+
