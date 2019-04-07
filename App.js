@@ -10,8 +10,21 @@ import TypingTextDef from "./components/homecomponent"
 
 const RootStack = createStackNavigator(
   {
-    Home: TypingTextDef,
-    Chomp: ChompComponent,
+
+    Home: {
+      screen: TypingTextDef,
+      navigationOptions: {
+        title: 'home',
+        header: null
+      },
+    },
+    Chomp:  {
+      screen: ChompComponent,
+      navigationOptions: {
+        title: 'chomp',
+        header: null
+      }
+    },
     Details: MainComponent,
   },
   {
