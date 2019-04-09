@@ -93,7 +93,7 @@ export default class LoginView extends Component {
                 size="large"
                 onPress={() => console.log("Works!")}
                 activeOpacity={0.7}
-                  containerStyle={{marginTop: 145, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
+                  containerStyle={{marginTop: 125, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
 
                />
 
@@ -107,7 +107,7 @@ export default class LoginView extends Component {
                   size="large"
                   onPress={() => console.log("Works!")}
                   activeOpacity={0.7}
-                  containerStyle={{marginTop: 145,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
+                  containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
               />
 
                  <Avatar
@@ -119,13 +119,14 @@ export default class LoginView extends Component {
                   size="large"
                   onPress={() => console.log("Works!")}
                   activeOpacity={0.7}
-                  containerStyle={{marginTop: 145,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
-
+                  containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
                 />
+
+                <View style = {styles.button2}>
 
                   <Button onPress={() =>this.props.navigation.navigate('Chomp')}  color="#d41302" title="Play"/>
 
-          
+                </View>
 
 
           </View>
@@ -160,6 +161,19 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     width: 170,
     top: 210,
+    alignItems: 'center',
+    borderColor: '#d41302',
+    borderWidth: 5,
+    borderRadius: 10,
+    color: '#d41302'
+  },
+
+   button2: {
+    position: 'absolute', 
+    marginBottom: 30,
+    left: '12.5%',
+    width: 170,
+    marginTop: 220,
     alignItems: 'center',
     borderColor: '#d41302',
     borderWidth: 5,
