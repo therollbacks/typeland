@@ -15,8 +15,7 @@ export default class ChompComponent extends React.Component {
         this.state = {
             typedWord: '',
             currentWord: '',
-            difficultyWords: 1,
-            difficultyLength: 4,
+            difficultyWords: 5,
             score: 0,
             badScore: 0,
             monHeight: new Animated.Value(300),
@@ -27,7 +26,9 @@ export default class ChompComponent extends React.Component {
 
     _nextWords = () => {
         this.refs.myInput.focus();
-        var randWords = randomWords({ exactly: 1, wordsPerString: this.state.difficultyWords, maxLength: this.state.difficultyLength })
+        diffwords = Math.floor(this.state.difficultyWords/5);
+        difflen = this.state.score%5 + 3
+        var randWords = randomWords({ exactly: 1, wordsPerString: diffwords, maxLength: difflen })
         this.setState({
             currentWord: randWords[0]
         });
@@ -62,7 +63,8 @@ export default class ChompComponent extends React.Component {
 
             this.setState({
                 typedWord: '',
-                score: this.state.score + 1
+                score: this.state.score + 1,
+                difficultyWords: this.state.difficultyWords + 1
             });
 
 
@@ -114,6 +116,9 @@ export default class ChompComponent extends React.Component {
           style={styles.textInput}
           onChangeText={typedWord => this._checkWords(typedWord)}
           value={this.state.typedWord}
+          autoCorrect={false}
+          spellCheck={false}
+          autoComplete={false}
         />
 
 
