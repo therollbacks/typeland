@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight } from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 
 var randomWords = require('random-words');
 
@@ -21,9 +22,22 @@ export default class ChompComponent extends React.Component {
             monHeight: new Animated.Value(300),
             monMouth: new Animated.Value(150),
             monPupil: new Animated.Value(0),
+            avaTop: new Animated.Value(50),
+            avaSide: new Animated.Value(125),
+            avaOpacity: new Animated.Value(1),
+            isModalVisible: false,
+            visible: false,
         };
     };
 
+    runAnimation() {
+        this.state.avaSide.setValue(125);
+        Animated.sequence([
+        Animated.timing(this.state.avaSide, { toValue: 120, duration:150}),
+        Animated.timing(this.state.avaSide, { toValue: 130, duration:150})
+        ]).start(() => this.runAnimation());
+    }
+   
     _nextWords = () => {
         this.refs.myInput.focus();
         diffwords = Math.floor(this.state.difficultyWords/5);
@@ -32,17 +46,18 @@ export default class ChompComponent extends React.Component {
         this.setState({
             currentWord: randWords[0]
         });
+    ;
 
     Animated.sequence([
     Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
 
     Animated.parallel([
-    Animated.timing(this.state.monMouth, { toValue: 1, duration: 1000 }),
-    Animated.timing(this.state.monPupil, { toValue: 30, duration: 1000 }),
+    Animated.timing(this.state.monMouth, { toValue: 1, duration: 250 }),
+    Animated.timing(this.state.monPupil, { toValue: 30, duration: 500 }),
     ]),
     Animated.sequence([
-        Animated.timing(this.state.monMouth, { toValue: 150, duration: 1000, }),
-        Animated.timing(this.state.monMouth, { toValue: 1, duration: 1000,}),
+        Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+        Animated.timing(this.state.monMouth, { toValue: 1, duration: 500,}),
     ])
         ]).start()
 
@@ -82,18 +97,21 @@ export default class ChompComponent extends React.Component {
         }
     }
 
+
     render() {
         let imageGameBack = require("./back2.png");
         const { navigation } = this.props;
         const someId = navigation.getParam('someId', 'NO-ID');
         const someName = navigation.getParam('someName', 'No title');
         console.log(someName)
-
+        const someImage = navigation.getParam('someImage', 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif')
         return (
 
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
             
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
+        
+
         <Animated.View style={[styles.monBody,{height: this.state.monHeight}]}>
         <View style={styles.armLeft}></View>
         <View style={styles.armRight}></View>
@@ -105,6 +123,15 @@ export default class ChompComponent extends React.Component {
                     <View style={styles.tooth2}></View>
                 </Animated.View>
         </Animated.View>
+
+        <Image 
+        source={{uri: 'https://png2.kisspng.com/sh/02a42433de43fde63ca1bc11ba29dde4/L0KzQYm3UsA2N6pnj5H0aYP2gLBuTgJweJYyfedsbHnndbL1TgZma6V0ip9tcnH6ebBuTgJweJYyTdMCOULmSIHrWPZiamIzT6MBNkS4R4a4VcE4QGo1TqoDOEi7SHB3jvc=/kisspng-rope-euclidean-vector-drawing-rope-5a792c80d8fab1.7166457515178906888888.png'}}
+        style={styles.rope}
+        />
+        <Animated.Image 
+          source={{uri: someImage}}
+          style={[styles.avatar, {opacity: this.state.avaOpacity, top: this.state.avaTop, left:this.state.avaSide}]}>
+        </Animated.Image>
 
         <Text style={{left: 25, top: 75, color: 'white', fontWeight: 'bold', fontSize: 12}}>Player: {someName}</Text>
         <Text style={{left: 25, top: 80, color: 'white', fontWeight: 'bold', fontSize: 12}}>Current word: {this.state.currentWord}</Text>
@@ -124,13 +151,33 @@ export default class ChompComponent extends React.Component {
 
         <View style={styles.button}>
           <Button
-            onPress={this._nextWords}
+            onPress={() => { this._nextWords(); this.runAnimation();}}
             title="Start game!"
             color="#a0a0a0"
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
+
+
+        <Button
+            title="Show Dialog"
+            onPress={() => {
+              this.setState({ visible: true });
+            }}
+          />
+          <Dialog
+            visible={this.state.visible}
+            onTouchOutside={() => {
+              this.setState({ visible: false });
+            }}
+          >
+            <DialogContent>
+              <Text> THIS IS SCOREBOARD </Text>
+            </DialogContent>
+          </Dialog>
         
+     
+ 
         </ImageBackground>
       </View>
         );
@@ -166,18 +213,18 @@ const styles = StyleSheet.create({
     },
     monBody: {
         position:'absolute',
-        width:300,
+        width:270,
         borderRadius: 50,
         backgroundColor: "#B61F24",
         bottom:-20,
-        left:27.5,
+        left:40,
 
         
     },
     eyeLeft: {
         position: 'relative',
         top:15,
-        left: 100,
+        left: 90,
         width: 100,
         height: 100,
         borderRadius: 100/2,
@@ -194,8 +241,8 @@ const styles = StyleSheet.create({
     mouth: {
         position: 'relative',
         bottom:-30,
-        left: 90,
-        width:125,
+        left: 50,
+        width:180,
         borderRadius: 150,
         backgroundColor: '#333',
         zIndex:11,
@@ -204,7 +251,7 @@ const styles = StyleSheet.create({
     tooth1: {
         position:'relative',
         top:-10,
-        left:32,
+        left:62,
         width:30,
         height:50,
         borderRadius:50,
@@ -216,7 +263,7 @@ const styles = StyleSheet.create({
     tooth2: {
         position:'relative',
         top:-60,
-        left:60,
+        left:90,
         width:30,
         height:50,
         borderRadius:50,
@@ -227,12 +274,13 @@ const styles = StyleSheet.create({
     armLeft: {
         position:'absolute',
         top:50,
+        left:-35,
         borderRadius: 50,
         width:60,
         height:250,
         backgroundColor: '#B61F24',
         overflow:'hidden',
-        transform: [{rotate: '150deg'}],
+        transform: [{rotate: '340deg'}],
     },
     armRight: {
        position:'absolute',
@@ -244,6 +292,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#B61F24',
         overflow:'hidden',
         transform: [{rotate: '200deg'}], 
+    },
+    avatar: {
+        position: 'absolute',
+        width: 100,
+        height:100,
+        
+    },
+    rope: {
+        position: 'absolute',
+        width:100,
+        height:50,
+        left:130,
+        transform: [{rotate: '90deg'}],
     }
     
 
