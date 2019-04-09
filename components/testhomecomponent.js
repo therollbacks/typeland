@@ -16,7 +16,7 @@ export default class LoginView extends Component {
     super(props);
     this.state = {
       name  : '',
-      password: '',  timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180, loginHeight: height/2 + 240,  dirty: false, username: '',
+      password: '',  timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180, loginHeight: height/2 + 240,  dirty: false, username: '', uri:'https://d2d00szk9na1qq.cloudfront.net/Product/8c8a442f-238a-4644-afc4-d46ef7778b5d/Images/Large_RFR-005.jpg',
     }
   }
 
@@ -83,7 +83,22 @@ export default class LoginView extends Component {
                   onChangeText={(name) => this.setState({name})}/>
             </View>
             
-            <Text style = {{fontSize: 30, color:'#d41302', fontWeight: 'bold' }}> Pick an Avatar </Text>
+            <Text style = {{fontSize: 30, color:'#d41302', fontWeight: 'bold' }}> Pick an Avatar: </Text>
+
+
+               <Avatar
+                rounded
+                source={{
+                  uri: this.state.uri,
+                }}
+                size="medium"
+                onPress={() => console.log("Works!")}
+                activeOpacity={0.7}
+                containerStyle={{marginTop: 62, marginBottom: 30, marginRight: 40, position: 'absolute', left: 220}}
+                
+               />
+
+
                <Avatar
                 rounded
                 source={{
@@ -91,9 +106,11 @@ export default class LoginView extends Component {
                     'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png',
                 }}
                 size="large"
-                onPress={() => console.log("Works!")}
+                onPress={() => this.setState({
+                  uri: 'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png'
+                })}
                 activeOpacity={0.7}
-                  containerStyle={{marginTop: 125, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
+                containerStyle={{marginTop: 125, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
 
                />
 
@@ -105,7 +122,9 @@ export default class LoginView extends Component {
                       'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif',
                   }}
                   size="large"
-                  onPress={() => console.log("Works!")}
+                  onPress={() => this.setState({
+                    uri: 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif'
+                  })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
               />
@@ -117,7 +136,9 @@ export default class LoginView extends Component {
                       'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423',
                   }}
                   size="large"
-                  onPress={() => console.log("Works!")}
+                  onPress={() => this.setState({
+                      uri: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423'
+                    })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
                 />
