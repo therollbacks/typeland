@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight, Dimensions, FlatList} from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
+let itemsRef = db.ref('/items');
+import {db} from '../db.js';
 
 var randomWords = require('random-words');
+let height =  Dimensions.get('window').height
+let width=  Dimensions.get('window').width
+
 
 export default class ChompComponent extends React.Component {
 
@@ -27,6 +32,7 @@ export default class ChompComponent extends React.Component {
             avaOpacity: new Animated.Value(1),
             isModalVisible: false,
             visible: false,
+            items: [],
         };
     };
 
@@ -98,6 +104,20 @@ export default class ChompComponent extends React.Component {
     }
 
 
+    componentDidMount() {
+  
+        itemsRef.ref.on('value', (snapshot) => {
+          const userObj = snapshot.val();
+          // this.name = userObj.name;
+          // this.avatar = userObj.avatar;
+            let data = snapshot.val();
+            let items = Object.values(data);
+            this.setState({items});
+            console.log(this.state.items)
+        });
+
+    
+    }
     render() {
         let imageGameBack = require("./back2.png");
         const { navigation } = this.props;
@@ -160,7 +180,7 @@ export default class ChompComponent extends React.Component {
 
 
         <Button
-            title="Show Dialog"
+            title="Show Scoreboard"
             onPress={() => {
               this.setState({ visible: true });
             }}
@@ -170,13 +190,19 @@ export default class ChompComponent extends React.Component {
             onTouchOutside={() => {
               this.setState({ visible: false });
             }}
+            dialogStyle={{height: height-140, width: width- 20}}
           >
             <DialogContent>
-              <Text> THIS IS SCOREBOARD </Text>
+              <Text style = {{ textAlign: 'center', fontSize: 25}}> SCOREBOARD </Text>
+                 <FlatList
+                    style={{width: '100%'}}
+                    data={this.state.items}
+                    renderItem={({item}) => <Text style={[{padding: 15, borderColor: 'black', borderWidth: 2, fontSize: 15, textAlign: 'center'}]}>{item.name}</Text>}
+                    keyExtractor={(item, index) => index.toString()}
+                />
             </DialogContent>
           </Dialog>
         
-     
  
         </ImageBackground>
       </View>

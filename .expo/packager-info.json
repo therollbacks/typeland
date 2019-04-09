@@ -1,1 +1,9 @@
-{}
+{
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://np-ge5.anonymous.typeland.exp.direct",
+  "packagerNgrokUrl": "https://packager.np-ge5.anonymous.typeland.exp.direct",
+  "ngrokPid": 15336,
+  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 10248
+}
