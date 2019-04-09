@@ -1,9 +1,9 @@
 {
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
+  "packagerPort": 19001,
+  "packagerPid": 11588,
+  "expoServerNgrokUrl": "https://yi-4uf.anonymous.typeland.exp.direct",
+  "packagerNgrokUrl": "https://packager.yi-4uf.anonymous.typeland.exp.direct",
+  "ngrokPid": 1696,
   "devToolsPort": 19002,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000
 }
