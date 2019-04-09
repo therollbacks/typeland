@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "expo": "^32.0.0",
+    "firebase": "^5.9.3",
     "native-base": "^2.12.1",
     "random-words": "^1.1.0",
     "react": "16.5.0",

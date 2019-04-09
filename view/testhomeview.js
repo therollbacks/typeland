@@ -11,7 +11,7 @@ let height =  Dimensions.get('window').height
 let width=  Dimensions.get('window').width
 
 
-export default class LoginView extends Component {
+export default class HomeView extends Component {
 
   constructor(props) {
     super(props);
@@ -27,7 +27,6 @@ export default class LoginView extends Component {
       dirty: false, 
       username: '', 
       uri:'https://d2d00szk9na1qq.cloudfront.net/Product/8c8a442f-238a-4644-afc4-d46ef7778b5d/Images/Large_RFR-005.jpg',
-      image : '',
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,13 +37,15 @@ export default class LoginView extends Component {
       name: e.nativeEvent.text
     });
   }
-
+  
   handleSubmit() {
     console.log("handling submit")
     console.log(this.state.name)
     console.log(this.state.uri)
     addItem(this.state.name, this.state.uri);
     Alert.alert("item saved successfully");
+    this.props.navigation.navigate('Chomp');
+
   }
 
 
@@ -67,7 +68,11 @@ export default class LoginView extends Component {
       });
     }
 
-
+    btnToChomp () {
+      console.log('btnToChomp');
+      this.handleSubmit;
+      this.props.navigation.navigate('Chomp');
+    }
 
     componentDidMount() {
       setTimeout(() => {
@@ -85,6 +90,8 @@ export default class LoginView extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground source={imageBack} style={{width: '100%', height: '100%', alignItems: 'center'}}>
+
+
           <View style = {{top: this.state.curHeight}}>
             <View style = {{ marginLeft: 28, marginRight: 28, marginBottom: 70}}>
               <TypingText text = "TypeLand. Type good to prevent feeding bubba. Type bad will feed bubba. Bubba is hungry. "/>
@@ -123,12 +130,11 @@ export default class LoginView extends Component {
                 rounded
                 source={{
                   uri:
-                    'http://pixelartmaker.com/art/2f0ad6a44ff3318.png',
+                    'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png',
                 }}
                 size="large"
                 onPress={() => this.setState({
-                  uri: 'http://pixelartmaker.com/art/2f0ad6a44ff3318.png',
-                  image: 'http://pixelartmaker.com/art/2f0ad6a44ff3318.png'
+                  uri: 'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png'
                 })}
                 activeOpacity={0.7}
                 containerStyle={{marginTop: 125, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
@@ -140,12 +146,11 @@ export default class LoginView extends Component {
                   rounded
                   source={{
                     uri:
-                      'https://ui-ex.com/images/undertale-transparent-background-3.png',
+                      'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif',
                   }}
                   size="large"
                   onPress={() => this.setState({
-                    uri: 'https://ui-ex.com/images/undertale-transparent-background-3.png',
-                    image: 'https://ui-ex.com/images/undertale-transparent-background-3.png'
+                    uri: 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif'
                   })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
@@ -159,18 +164,14 @@ export default class LoginView extends Component {
                   }}
                   size="large"
                   onPress={() => this.setState({
-                      uri: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423',
-                      image: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423'
+                      uri: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423'
                     })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
                 />
 
                 <View style = {styles.button2}>
-                  <Button onPress={() =>this.props.navigation.navigate('Chomp', {
-                    someImage: this.state.image,
-                  })}  color="#d41302" title="Play"/>
-
+                  <Button onPress={this.handleSubmit}  color="#d41302" title="Play"/>
                 </View>
 
 
@@ -255,6 +256,7 @@ const styles = StyleSheet.create({
   }
 });
 
+
 TypingText.propTypes =
 {
   text: PropTypes.string,
@@ -267,7 +269,8 @@ TypingText.propTypes =
 TypingText.defaultProps =
 {
   text: "Default Typing Animated Text.",
-  color: "rgb( 77, 192, 103 )",
+  color: "#d41302",
+  fontWeight: 'bold',
   textSize: 30,
   typingAnimationDuration: 50,
   blinkingCursorAnimationDuration: 190
