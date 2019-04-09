@@ -16,6 +16,7 @@ export default class LoginView extends Component {
     super(props);
     this.state = {
       name  : '',
+      image : '',
       password: '',  timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180, loginHeight: height/2 + 240,  dirty: false, username: '', uri:'https://d2d00szk9na1qq.cloudfront.net/Product/8c8a442f-238a-4644-afc4-d46ef7778b5d/Images/Large_RFR-005.jpg',
     }
   }
@@ -103,11 +104,12 @@ export default class LoginView extends Component {
                 rounded
                 source={{
                   uri:
-                    'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png',
+                    'http://pixelartmaker.com/art/2f0ad6a44ff3318.png',
                 }}
                 size="large"
                 onPress={() => this.setState({
-                  uri: 'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png'
+                  uri: 'http://pixelartmaker.com/art/2f0ad6a44ff3318.png',
+                  image: 'http://pixelartmaker.com/art/2f0ad6a44ff3318.png'
                 })}
                 activeOpacity={0.7}
                 containerStyle={{marginTop: 125, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
@@ -119,11 +121,12 @@ export default class LoginView extends Component {
                   rounded
                   source={{
                     uri:
-                      'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif',
+                      'https://ui-ex.com/images/undertale-transparent-background-3.png',
                   }}
                   size="large"
                   onPress={() => this.setState({
-                    uri: 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif'
+                    uri: 'https://ui-ex.com/images/undertale-transparent-background-3.png',
+                    image: 'https://ui-ex.com/images/undertale-transparent-background-3.png'
                   })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
@@ -137,7 +140,8 @@ export default class LoginView extends Component {
                   }}
                   size="large"
                   onPress={() => this.setState({
-                      uri: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423'
+                      uri: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423',
+                      image: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423'
                     })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
@@ -145,7 +149,9 @@ export default class LoginView extends Component {
 
                 <View style = {styles.button2}>
 
-                  <Button onPress={() =>this.props.navigation.navigate('Chomp')}  color="#d41302" title="Play"/>
+                  <Button onPress={() =>this.props.navigation.navigate('Chomp', {
+                    someImage: this.state.image,
+                  })}  color="#d41302" title="Play"/>
 
                 </View>
 
