@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import TypingText from "./typingcomponent.js"
 import FloatingLabelInput from './namecomponent.js'
 var FloatingLabel = require('react-native-floating-labels');
+import { Avatar } from 'react-native-elements';
 
 let height =  Dimensions.get('window').height
 let width=  Dimensions.get('window').width
@@ -15,7 +16,7 @@ export default class LoginView extends Component {
     super(props);
     this.state = {
       name  : '',
-      password: '',  timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180, loginHeight: height/2 - 100,  dirty: false, username: '',
+      password: '',  timePassed: false, butOpacity: 1, barOpacity: 0, isVisible: true, curHeight: height/2 - 180, loginHeight: height/2 + 240,  dirty: false, username: '',
     }
   }
 
@@ -31,7 +32,7 @@ export default class LoginView extends Component {
     _getUserName = () => {
       console.log("pressed play")
       this.setState({
-        curHeight: 10,
+        curHeight: 110,
         butOpacity: 0,
         barOpacity: 1,
         loginHeight: 70
@@ -55,11 +56,11 @@ export default class LoginView extends Component {
 
     return (
       <View style={styles.container}>
-        <ImageBackground source={imageBack} style={{width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+        <ImageBackground source={imageBack} style={{width: '100%', height: '100%', alignItems: 'center'}}>
 
 
           <View style = {{top: this.state.curHeight}}>
-            <View style = {{ marginLeft: 28, marginRight: 28}}>
+            <View style = {{ marginLeft: 28, marginRight: 28, marginBottom: 70}}>
               <TypingText text = "TypeLand. Type good to prevent feeding bubba. Type bad will feed bubba. Bubba is hungry. "/>
             </View>
 
@@ -70,7 +71,9 @@ export default class LoginView extends Component {
           </View>
 
 
-          <View style = {{marginTop: 20, opacity: this.state.barOpacity, width: width/1.3, left: width/16, top: this.state.loginHeight}}>
+
+
+          <View style = {{marginTop: 20, opacity: 1, width: width/1.3, left: width/16, top: this.state.loginHeight}}>
 
             <View style={styles.inputContainer}>
               <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/message/ultraviolet/50/3498db'}}/>
@@ -80,22 +83,50 @@ export default class LoginView extends Component {
                   onChangeText={(name) => this.setState({name})}/>
             </View>
             
-            <View style={styles.inputContainer}>
-              <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db'}}/>
-              <TextInput style={styles.inputs}
-                  placeholder="Password"
-                  secureTextEntry={true}
-                  underlineColorAndroid='transparent'
-                  onChangeText={(password) => this.setState({password})}/>
-            </View>
+            <Text style = {{fontSize: 30, color:'#d41302', fontWeight: 'bold' }}> Pick an Avatar </Text>
+               <Avatar
+                rounded
+                source={{
+                  uri:
+                    'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png',
+                }}
+                size="large"
+                onPress={() => console.log("Works!")}
+                activeOpacity={0.7}
+                  containerStyle={{marginTop: 145, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
 
-            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.props.navigation.navigate('Chomp')}>
-              <Text style={styles.loginText}>Login</Text>
-            </TouchableHighlight>
+               />
 
-            <TouchableHighlight style={styles.buttonContainer} onPress={() =>this.props.navigation.navigate('Signup')}>
-                <Text style = {{color: 'white'}}>Register</Text>
-            </TouchableHighlight>
+              
+                <Avatar
+                  rounded
+                  source={{
+                    uri:
+                      'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif',
+                  }}
+                  size="large"
+                  onPress={() => console.log("Works!")}
+                  activeOpacity={0.7}
+                  containerStyle={{marginTop: 145,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
+              />
+
+                 <Avatar
+                  rounded
+                  source={{
+                    uri:
+                      'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423',
+                  }}
+                  size="large"
+                  onPress={() => console.log("Works!")}
+                  activeOpacity={0.7}
+                  containerStyle={{marginTop: 145,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
+
+                />
+
+                  <Button onPress={() =>this.props.navigation.navigate('Chomp')}  color="#d41302" title="Play"/>
+
+          
+
 
           </View>
       </ImageBackground>
