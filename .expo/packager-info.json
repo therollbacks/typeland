@@ -1,1 +1,9 @@
-{}
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 6000,
+  "expoServerNgrokUrl": "https://ax-bh7.anonymous.typeland.exp.direct",
+  "packagerNgrokUrl": "https://packager.ax-bh7.anonymous.typeland.exp.direct",
+  "ngrokPid": 2748
+}
