@@ -10,18 +10,21 @@ import LoginView from "./components/testhomecomponent"
 import SignupView from "./components/signupcomponent"
 
 
+import HomeView from './view/testhomeview';
+import ChompView from './view/chompview';
+
 const RootStack = createStackNavigator(
   {
 
     Home: {
-      screen: LoginView,
+      screen: HomeView,
       navigationOptions: {
         title: 'home',
         header: null
       },
     },
     Chomp:  {
-      screen: ChompComponent,
+      screen: ChompView,
       navigationOptions: {
         title: 'chomp',
         header: null

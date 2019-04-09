@@ -11,7 +11,7 @@ let height =  Dimensions.get('window').height
 let width=  Dimensions.get('window').width
 
 
-export default class LoginView extends Component {
+export default class HomeView extends Component {
 
   constructor(props) {
     super(props);
@@ -37,13 +37,15 @@ export default class LoginView extends Component {
       name: e.nativeEvent.text
     });
   }
-
+  
   handleSubmit() {
     console.log("handling submit")
     console.log(this.state.name)
     console.log(this.state.uri)
     addItem(this.state.name, this.state.uri);
     Alert.alert("item saved successfully");
+    this.props.navigation.navigate('Chomp');
+
   }
 
 
@@ -66,7 +68,11 @@ export default class LoginView extends Component {
       });
     }
 
-
+    btnToChomp () {
+      console.log('btnToChomp');
+      this.handleSubmit;
+      this.props.navigation.navigate('Chomp');
+    }
 
     componentDidMount() {
       setTimeout(() => {
@@ -84,6 +90,8 @@ export default class LoginView extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground source={imageBack} style={{width: '100%', height: '100%', alignItems: 'center'}}>
+
+
           <View style = {{top: this.state.curHeight}}>
             <View style = {{ marginLeft: 28, marginRight: 28, marginBottom: 70}}>
               <TypingText text = "TypeLand. Type good to prevent feeding bubba. Type bad will feed bubba. Bubba is hungry. "/>
@@ -163,9 +171,7 @@ export default class LoginView extends Component {
                 />
 
                 <View style = {styles.button2}>
-
-                  <Button onPress={() =>this.props.navigation.navigate('Signup')}  color="#d41302" title="Play"/>
-
+                  <Button onPress={this.handleSubmit}  color="#d41302" title="Play"/>
                 </View>
 
 
@@ -250,6 +256,7 @@ const styles = StyleSheet.create({
   }
 });
 
+
 TypingText.propTypes =
 {
   text: PropTypes.string,
@@ -262,7 +269,8 @@ TypingText.propTypes =
 TypingText.defaultProps =
 {
   text: "Default Typing Animated Text.",
-  color: "rgb( 77, 192, 103 )",
+  color: "#d41302",
+  fontWeight: 'bold',
   textSize: 30,
   typingAnimationDuration: 50,
   blinkingCursorAnimationDuration: 190

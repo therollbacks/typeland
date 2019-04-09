@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://ax-bh7.anonymous.typeland.exp.direct",
   "packagerNgrokUrl": "https://packager.ax-bh7.anonymous.typeland.exp.direct",
-  "ngrokPid": 1540,
+  "ngrokPid": 14564,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 12124
+  "packagerPid": 15888
 }
