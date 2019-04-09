@@ -16,6 +16,7 @@
     "react-native-elements": "^1.1.0",
     "react-native-floating-labels": "^1.1.9",
     "react-native-popup-dialog": "^0.18.2",
+    "react-native-timer-countdown": "^4.1.0",
     "react-navigation": "^3.4.1",
     "react-typing-animation": "^1.6.2"
   },
