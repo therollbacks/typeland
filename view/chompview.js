@@ -44,10 +44,11 @@ export default class ChompComponent extends React.Component {
             visible: false,
             items: [],
             gameOverMove: new Animated.Value(400),
-            score: 3,
+            scoreTest: 3,
             username: 'uu',
             objectId:'',
             params:this.props.navigation.state.params,
+            scoreboardOpa: 0,
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -133,7 +134,7 @@ export default class ChompComponent extends React.Component {
 
     }
 
-
+    //scoreboard stuff
     componentDidMount() {
 
         itemsRef.ref.on('value', (snapshot) => {
@@ -153,12 +154,8 @@ export default class ChompComponent extends React.Component {
         );
     }
 
-
-    // setObjIdState = () => {
-    //     console.log("params is ", this.state.params.objectId)
-    // }
     handleSubmit() {
-        this.setState({ visible: true });
+        this.setState({ visible: true, scoreboardOpa: 1});
         updateItem(this.state.params.objectId, this.state.score);
         console.log('this.state.params.objectId', this.state.params.objectId);
 
@@ -253,11 +250,6 @@ export default class ChompComponent extends React.Component {
 
 
         <View style = {{top: 330}}> 
-            <Button
-                title="Show Scoreboard"
-            
-                onPress= {this.handleSubmit}
-              />
               <Dialog
                 visible={this.state.visible}
                 onTouchOutside={() => {
@@ -266,26 +258,27 @@ export default class ChompComponent extends React.Component {
                 dialogStyle={{height: height-140, width: width- 20, backgroundColor: '#d1cfce'}}
               >
                 <DialogContent>
-                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20}}> SCOREBOARD </Text>
+                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20, fontWeight: 'bold', color: '#4a4847'}}> SCOREBOARD </Text>
 
-                    <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', marginTop: 10, marginBottom: 10}}>
+                    <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', marginTop: 10, 
+                                        marginBottom: 10, height: 370 }}>
                       {
-
                         this.state.items.map((l, i) => (
                        
                           <ListItem
                             key = {i}
                             leftAvatar={{ source: { uri: l.avatar} }}
                             title={l.name}
-                            subtitle= {l.score}
+                            subtitle= {
+                                <View> 
+                                    <Text> Score: {l.score} </Text>
+                                </View>
+                            }
                           /> 
-                      
                         ))
 
                       }
-                    </ScrollView>
-                  
-                     
+                    </ScrollView> 
                 </DialogContent>
               </Dialog>
           </View>
@@ -298,33 +291,12 @@ export default class ChompComponent extends React.Component {
         <View style={styles.buttonMove}>
             <Button
             title="Show Scoreboard"
-            onPress={() => {
-              this.setState({ visible: true });
-            }}
+            onPress= {this.handleSubmit}
+
           />
           </View>
         </Animated.View>
-
-        
-          <Dialog
-            visible={this.state.visible}
-            onTouchOutside={() => {
-              this.setState({ visible: false });
-            }}
-            dialogStyle={{height: height-140, width: width- 20}}
-          >
-            <DialogContent>
-              <Text style = {{ textAlign: 'center', fontSize: 25}}> SCOREBOARD </Text>
-                 <FlatList
-                    style={{width: '100%'}}
-                    data={this.state.items}
-                    renderItem={({item}) => <Text style={[{padding: 15, borderColor: 'black', borderWidth: 2, fontSize: 15, textAlign: 'center'}]}>{item.name}</Text>}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </DialogContent>
-          </Dialog>        
- 
-        </ImageBackground>
+      </ImageBackground>
       </View>
         );
     }
