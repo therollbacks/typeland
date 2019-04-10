@@ -45,9 +45,7 @@ export default class ChompComponent extends React.Component {
             currentWord: randWords[0]
         });;
 
-
-
-        Animated.sequence([
+        /*Animated.sequence([
             Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
 
             Animated.parallel([
@@ -58,8 +56,7 @@ export default class ChompComponent extends React.Component {
                 Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
                 Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
             ])
-        ]).start()
-
+        ]).start()*/
 
 
 
