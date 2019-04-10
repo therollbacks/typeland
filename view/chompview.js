@@ -67,8 +67,8 @@ export default class ChompComponent extends React.Component {
                 Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
                 Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
                 Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
-                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
-                Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
+                // Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+                // Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
             ])
         ]).start()
 
@@ -183,7 +183,7 @@ export default class ChompComponent extends React.Component {
         
 
         <Text style={{left: 25, top: 75, color: 'white', fontWeight: 'bold', fontSize: 12}}>Player: {someName}</Text>
-        <Text style={styles.current}>{this.state.currentWord}</Text>
+        <Text style={styles.currentWordStyle}>{this.state.currentWord}</Text>
         <Text style={{left: 25, top: 90, color: 'white', fontWeight: 'bold', fontSize: 12}}>Score: {this.state.score}</Text>
         <TextInput
           ref="myInput"
@@ -198,7 +198,7 @@ export default class ChompComponent extends React.Component {
 
         <View style={styles.button}>
           <Button
-            onPress={() => { this._nextWords(); this.runAnimation();}}
+            onPress={() => { this._nextWords(); this._runAnimation();}}
             title="Start game!"
             color="#a0a0a0"
             accessibilityLabel="Learn more about this purple button"
@@ -360,17 +360,13 @@ const styles = StyleSheet.create({
         left: 130,
         transform: [{ rotate: '90deg' }],
     },
-    current: {
+    currentWordStyle: {
         top: 250,
         color: '#f73b8c',
         fontWeight: 'bold',
         fontSize: 30,
         position: 'absolute',
         margin: 'auto'
-        width: 100,
-        height: 50,
-        left: 130,
-        transform: [{ rotate: '90deg' }],
     },
     gameOver: {
         width: 300,
