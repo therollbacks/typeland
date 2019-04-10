@@ -1,8 +1,20 @@
 import {db} from '../db.js';
 
-export const addItem = (item, uri) => {
-	db.ref('/items').push({
+export const addItem = (item, uri, score) => {
+	
+	var newPostRef = db.ref('/items').push({
 		name: item,
-		avatar: uri
+		avatar: uri,
+		score: 0
 	});
+
+	var postId = newPostRef.key;
+	return postId
+}
+
+export const updateItem = (objectid, score) => {
+	
+	var adaNameRef = db.ref('/items/' + objectid);
+
+	adaNameRef.update({ score: score });
 }

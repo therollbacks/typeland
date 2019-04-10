@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight, Dimensions, FlatList} from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, 
+        Animated, TouchableHighlight, Dimensions, FlatList, ScrollView} from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 let itemsRef = db.ref('/items');
 import {db} from '../db.js';
+import { Avatar,ListItem } from 'react-native-elements';
+import {updateItem} from '../service/MyServiceInterface';
 
 var randomWords = require('random-words');
 let height =  Dimensions.get('window').height
@@ -15,9 +18,13 @@ let width=  Dimensions.get('window').width
 
 export default class ChompComponent extends React.Component {
 
+    static navigationOptions = ({ navigation }) => {
+        const { params } = navigation.state;
+        return params;
+    };
+
     constructor(props) {
         super(props)
-        
         this.state = {
             typedWord: '',
             currentWord: '',
@@ -34,7 +41,15 @@ export default class ChompComponent extends React.Component {
             visible: false,
             items: [],
             gameOverMove: new Animated.Value(400),
+            score: 3,
+            username: 'uu',
+            objectId:'',
+            params:this.props.navigation.state.params,
+
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.tryparams = 'tryparams'
+
     };
 
     runAnimation() {
@@ -121,9 +136,25 @@ export default class ChompComponent extends React.Component {
             this.setState({items});
             console.log(this.state.items)
         });
-
-    
     }
+
+    _renderSeparator(sectionID,rowID){
+        return (
+            <View style={styles.separatorLine} key={"sectionID_"+sectionID+"_rowID_"+rowID}></View>
+        );
+    }
+
+
+    // setObjIdState = () => {
+    //     console.log("params is ", this.state.params.objectId)
+    // }
+    handleSubmit() {
+        this.setState({ visible: true });
+        updateItem(this.state.params.objectId, this.state.score);
+        console.log('this.state.params.objectId', this.state.params.objectId);
+
+      }
+
     render() {
         let imageGameBack = require("./back2.png");
         let gameOver = require("./Game-Over.png")
@@ -132,6 +163,10 @@ export default class ChompComponent extends React.Component {
         const someName = navigation.getParam('someName', 'No title');
         console.log(someName)
         const someImage = navigation.getParam('someImage', 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif')
+        const someObjectId = navigation.getParam('objectId', 'objectId')
+        console.log("someObjectId passed into chompView is ", someObjectId)
+
+
         return (
 
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
@@ -195,29 +230,43 @@ export default class ChompComponent extends React.Component {
         </View>
 
 
-        <Button
-            title="Show Scoreboard"
-            onPress={() => {
-              this.setState({ visible: true });
-            }}
-          />
-          <Dialog
-            visible={this.state.visible}
-            onTouchOutside={() => {
-              this.setState({ visible: false });
-            }}
-            dialogStyle={{height: height-140, width: width- 20}}
-          >
-            <DialogContent>
-              <Text style = {{ textAlign: 'center', fontSize: 25}}> SCOREBOARD </Text>
-                 <FlatList
-                    style={{width: '100%'}}
-                    data={this.state.items}
-                    renderItem={({item}) => <Text style={[{padding: 15, borderColor: 'black', borderWidth: 2, fontSize: 15, textAlign: 'center'}]}>{item.name}</Text>}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </DialogContent>
-          </Dialog>
+        <View style = {{top: 330}}> 
+            <Button
+                title="Show Scoreboard"
+            
+                onPress= {this.handleSubmit}
+              />
+              <Dialog
+                visible={this.state.visible}
+                onTouchOutside={() => {
+                  this.setState({ visible: false });
+                }}
+                dialogStyle={{height: height-140, width: width- 20, backgroundColor: '#d1cfce'}}
+              >
+                <DialogContent>
+                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20}}> SCOREBOARD </Text>
+
+                    <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', marginTop: 10, marginBottom: 10}}>
+                      {
+
+                        this.state.items.map((l, i) => (
+                       
+                          <ListItem
+                            key = {i}
+                            leftAvatar={{ source: { uri: l.avatar} }}
+                            title={l.name}
+                            subtitle= {l.score}
+                          /> 
+                      
+                        ))
+
+                      }
+                    </ScrollView>
+                  
+                     
+                </DialogContent>
+              </Dialog>
+          </View>
         
  
         </ImageBackground>
