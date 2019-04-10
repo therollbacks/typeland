@@ -26,7 +26,7 @@ export default class ChompComponent extends React.Component {
             score: 0,
             badScore: 0,
             monHeight: new Animated.Value(300),
-            monMouth: new Animated.Value(150),
+            monMouth: new Animated.Value(1),
             monPupil: new Animated.Value(0),
             avaTop: new Animated.Value(50),
             avaSide: new Animated.Value(125),
@@ -55,22 +55,22 @@ export default class ChompComponent extends React.Component {
             currentWord: randWords[0]
         });;
 
-        Animated.sequence([
-            Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
+        // Animated.sequence([
+        //     Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
 
-            Animated.parallel([
-                Animated.timing(this.state.monMouth, { toValue: 1, duration: 250 }),
-                Animated.timing(this.state.monPupil, { toValue: 30, duration: 500 }),
-            ]),
-            Animated.sequence([
-                Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
-                Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
-                Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
-                Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
-                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
-                Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
-            ])
-        ]).start()
+        //     Animated.parallel([
+        //         Animated.timing(this.state.monMouth, { toValue: 1, duration: 250 }),
+        //         Animated.timing(this.state.monPupil, { toValue: 30, duration: 500 }),
+        //     ]),
+        //     Animated.sequence([
+        //         Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+        //         Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
+        //         Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
+        //         Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+        //         Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+        //         Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
+        //     ])
+        // ]).start()
 
     };
 
@@ -105,6 +105,16 @@ export default class ChompComponent extends React.Component {
 
     _timesUp = () => {
         console.log('times up!')
+        Animated.sequence([
+                Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
+                Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+                Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
+                Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
+                Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+                /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
+            ]).start()
+
     }
 
 
@@ -173,12 +183,12 @@ export default class ChompComponent extends React.Component {
           style={[styles.avatar, {opacity: this.state.avaOpacity, top: this.state.avaTop, left:this.state.avaSide}]}>
         </Animated.Image>
 
-        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+        {/*<Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
         <Animated.Image 
         source={gameOver}
         style={styles.gameOver}>
         </Animated.Image>
-        </Animated.View>
+        </Animated.View>*/}
 
         
 
@@ -198,20 +208,29 @@ export default class ChompComponent extends React.Component {
 
         <View style={styles.button}>
           <Button
-            onPress={() => { this._nextWords(); this.runAnimation();}}
+            onPress={() => { this._nextWords(); this._runAnimation()}}
             title="Start game!"
             color="#a0a0a0"
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
 
-
-        <Button
+        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+        <Animated.Image 
+        source={gameOver}
+        style={styles.gameOver}>
+        </Animated.Image>
+        <View style={styles.buttonMove}>
+            <Button
             title="Show Scoreboard"
             onPress={() => {
               this.setState({ visible: true });
             }}
           />
+          </View>
+        </Animated.View>
+
+        
           <Dialog
             visible={this.state.visible}
             onTouchOutside={() => {
@@ -255,6 +274,14 @@ const styles = StyleSheet.create({
         top: 275,
         width: 200,
         left: 75
+    },
+    buttonMove: {
+        position: 'absolute',
+        width:200,
+        height:100,
+        top:500,
+        opacity: 1,
+        left: 76,
     },
     openText: {
         fontSize: 30,
@@ -366,7 +393,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 30,
         position: 'absolute',
-        margin: 'auto'
+        margin: 'auto',
         width: 100,
         height: 50,
         left: 130,
