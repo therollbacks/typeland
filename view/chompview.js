@@ -6,14 +6,17 @@ import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackg
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
-let itemsRef = db.ref('/items');
 import {db} from '../db.js';
 import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
 
+import TimerCountdown from "react-native-timer-countdown";
+
+
+let itemsRef = db.ref('/items');
 var randomWords = require('random-words');
-let height =  Dimensions.get('window').height
-let width=  Dimensions.get('window').width
+let height = Dimensions.get('window').height
+let width = Dimensions.get('window').width
 
 
 export default class ChompComponent extends React.Component {
@@ -24,7 +27,7 @@ export default class ChompComponent extends React.Component {
     };
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             typedWord: '',
             currentWord: '',
@@ -32,7 +35,7 @@ export default class ChompComponent extends React.Component {
             score: 0,
             badScore: 0,
             monHeight: new Animated.Value(300),
-            monMouth: new Animated.Value(150),
+            monMouth: new Animated.Value(1),
             monPupil: new Animated.Value(0),
             avaTop: new Animated.Value(50),
             avaSide: new Animated.Value(125),
@@ -52,47 +55,39 @@ export default class ChompComponent extends React.Component {
 
     };
 
-    runAnimation() {
+    _runAnimation = () => {
         this.state.avaSide.setValue(125);
         Animated.sequence([
-        Animated.timing(this.state.avaSide, { toValue: 120, duration:150}),
-        Animated.timing(this.state.avaSide, { toValue: 130, duration:150})
-        ]).start(() => this.runAnimation());
-    }
-   
+            Animated.timing(this.state.avaSide, { toValue: 120, duration: 150 }),
+            Animated.timing(this.state.avaSide, { toValue: 130, duration: 150 })
+        ]).start(() => this._runAnimation());
+    };
+
     _nextWords = () => {
         this.refs.myInput.focus();
-        diffwords = Math.floor(this.state.difficultyWords/5);
-        difflen = this.state.score%5 + 3
+        diffwords = Math.floor(this.state.difficultyWords / 5);
+        difflen = this.state.score % 5 + 3
         var randWords = randomWords({ exactly: 1, wordsPerString: diffwords, maxLength: difflen })
         this.setState({
             currentWord: randWords[0]
-        });
-    ;
+        });;
 
-    Animated.sequence([
-    Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
+        // Animated.sequence([
+        //     Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
 
-    Animated.parallel([
-    Animated.timing(this.state.monMouth, { toValue: 1, duration: 250 }),
-    Animated.timing(this.state.monPupil, { toValue: 30, duration: 500 }),
-    ]),
-    Animated.sequence([
-        Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
-        Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000}),
-        Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500}),
-        Animated.timing(this.state.monMouth, { toValue: 1, duration: 500,}),
-        Animated.timing(this.state.gameOverMove, {toValue:0, duration: 1000,}),
-        Animated.timing(this.state.gameOverMove, {toValue:400, duration: 1000,})
-    ])
-        ]).start()
-
-
-    
-
-
-
-
+        //     Animated.parallel([
+        //         Animated.timing(this.state.monMouth, { toValue: 1, duration: 250 }),
+        //         Animated.timing(this.state.monPupil, { toValue: 30, duration: 500 }),
+        //     ]),
+        //     Animated.sequence([
+        //         Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+        //         Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
+        //         Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
+        //         Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+        //         Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+        //         Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
+        //     ])
+        // ]).start()
     };
 
     _checkWords = (userInput) => {
@@ -122,18 +117,32 @@ export default class ChompComponent extends React.Component {
 
 
         }
+    };
+
+    _timesUp = () => {
+        console.log('times up!')
+        Animated.sequence([
+                Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
+                Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+                Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
+                Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
+                Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+                /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
+            ]).start()
+
     }
 
 
     componentDidMount() {
-  
+
         itemsRef.ref.on('value', (snapshot) => {
-          const userObj = snapshot.val();
-          // this.name = userObj.name;
-          // this.avatar = userObj.avatar;
+            const userObj = snapshot.val();
+            // this.name = userObj.name;
+            // this.avatar = userObj.avatar;
             let data = snapshot.val();
             let items = Object.values(data);
-            this.setState({items});
+            this.setState({ items });
             console.log(this.state.items)
         });
     }
@@ -173,6 +182,21 @@ export default class ChompComponent extends React.Component {
             
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
         
+        <View style={{width: 500, height: 500, position: 'absolute', justifyContent: 'center'}}>
+                <TimerCountdown
+                    initialMilliseconds={5000}
+                    onTick={(milliseconds) => console.log("tick", milliseconds)}
+                    onExpire={() => {this._timesUp();}}
+                    formatMilliseconds={(milliseconds) => {
+                    const remainingSec = Math.round(milliseconds / 1000);
+                    const seconds = parseInt((remainingSec % 60).toString(), 10);
+                    const s = seconds < 10 ? '0' + seconds : seconds;
+                    return s;
+                    }}
+                    allowFontScaling={true}
+                    style={{ fontSize: 20 }}
+                />
+        </View>
 
         <Animated.View style={[styles.monBody,{height: this.state.monHeight}]}>
         <View style={styles.armLeft}></View>
@@ -195,20 +219,18 @@ export default class ChompComponent extends React.Component {
           style={[styles.avatar, {opacity: this.state.avaOpacity, top: this.state.avaTop, left:this.state.avaSide}]}>
         </Animated.Image>
 
-        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+        {/*<Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
         <Animated.Image 
         source={gameOver}
         style={styles.gameOver}>
         </Animated.Image>
-        </Animated.View>
+        </Animated.View>*/}
 
         
 
         <Text style={{left: 25, top: 75, color: 'white', fontWeight: 'bold', fontSize: 12}}>Player: {someName}</Text>
-        <Text style={{left: 25, top: 80, color: 'white', fontWeight: 'bold', fontSize: 12}}>Current word: {this.state.currentWord}</Text>
-        <Text style={{left: 25, top: 85, color: 'white', fontWeight: 'bold', fontSize: 12}}>Typed word: {this.state.typedWord}</Text>
+        <Text style={styles.currentWordStyle}>{this.state.currentWord}</Text>
         <Text style={{left: 25, top: 90, color: 'white', fontWeight: 'bold', fontSize: 12}}>Score: {this.state.score}</Text>
-        <Text style={{left: 25, top: 95, color: 'white', fontWeight: 'bold', fontSize: 12}}>Bad score: {this.state.badScore}</Text>
         <TextInput
           ref="myInput"
           style={styles.textInput}
@@ -222,7 +244,7 @@ export default class ChompComponent extends React.Component {
 
         <View style={styles.button}>
           <Button
-            onPress={() => { this._nextWords(); this.runAnimation();}}
+            onPress={() => { this._nextWords(); this._runAnimation()}}
             title="Start game!"
             color="#a0a0a0"
             accessibilityLabel="Learn more about this purple button"
@@ -267,7 +289,40 @@ export default class ChompComponent extends React.Component {
                 </DialogContent>
               </Dialog>
           </View>
+
+        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+        <Animated.Image 
+        source={gameOver}
+        style={styles.gameOver}>
+        </Animated.Image>
+        <View style={styles.buttonMove}>
+            <Button
+            title="Show Scoreboard"
+            onPress={() => {
+              this.setState({ visible: true });
+            }}
+          />
+          </View>
+        </Animated.View>
+
         
+          <Dialog
+            visible={this.state.visible}
+            onTouchOutside={() => {
+              this.setState({ visible: false });
+            }}
+            dialogStyle={{height: height-140, width: width- 20}}
+          >
+            <DialogContent>
+              <Text style = {{ textAlign: 'center', fontSize: 25}}> SCOREBOARD </Text>
+                 <FlatList
+                    style={{width: '100%'}}
+                    data={this.state.items}
+                    renderItem={({item}) => <Text style={[{padding: 15, borderColor: 'black', borderWidth: 2, fontSize: 15, textAlign: 'center'}]}>{item.name}</Text>}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            </DialogContent>
+          </Dialog>        
  
         </ImageBackground>
       </View>
@@ -281,17 +336,26 @@ const styles = StyleSheet.create({
     textInput: {
         height: 40,
         width: 300,
-        top: 225,
+        top: 350,
         left: 25,
         borderColor: 'gray',
         borderWidth: 1,
         position: 'absolute',
-        color: 'white'
+        color: 'white',
+        fontSize: 25
     },
     button: {
         top: 275,
         width: 200,
         left: 75
+    },
+    buttonMove: {
+        position: 'absolute',
+        width:200,
+        height:100,
+        top:500,
+        opacity: 1,
+        left: 76,
     },
     openText: {
         fontSize: 30,
@@ -303,117 +367,124 @@ const styles = StyleSheet.create({
 
     },
     monBody: {
-        position:'absolute',
-        width:270,
+        position: 'absolute',
+        width: 270,
         borderRadius: 50,
         backgroundColor: "#B61F24",
-        bottom:-20,
-        left:40,
+        bottom: -20,
+        left: 40,
 
-        
+
     },
     eyeLeft: {
         position: 'relative',
-        top:15,
+        top: 15,
         left: 90,
         width: 100,
         height: 100,
-        borderRadius: 100/2,
+        borderRadius: 100 / 2,
         backgroundColor: '#fff',
     },
     pupil1: {
-        position:'relative',
-        width:40,
-        height:40,
-        left:30,
-        borderRadius: 100/2,
+        position: 'relative',
+        width: 40,
+        height: 40,
+        left: 30,
+        borderRadius: 100 / 2,
         backgroundColor: '#000000',
     },
     mouth: {
         position: 'relative',
-        bottom:-30,
+        bottom: -30,
         left: 50,
-        width:180,
+        width: 180,
         borderRadius: 150,
         backgroundColor: '#333',
-        zIndex:11,
+        zIndex: 11,
         overflow: 'hidden',
     },
     tooth1: {
-        position:'relative',
-        top:-10,
-        left:62,
-        width:30,
-        height:50,
-        borderRadius:50,
-        backgroundColor:'#fff',
+        position: 'relative',
+        top: -10,
+        left: 62,
+        width: 30,
+        height: 50,
+        borderRadius: 50,
+        backgroundColor: '#fff',
         borderWidth: 0.5,
         borderColor: 'black',
 
     },
     tooth2: {
-        position:'relative',
-        top:-60,
-        left:90,
-        width:30,
-        height:50,
-        borderRadius:50,
-        backgroundColor:'#fff',
+        position: 'relative',
+        top: -60,
+        left: 90,
+        width: 30,
+        height: 50,
+        borderRadius: 50,
+        backgroundColor: '#fff',
         borderWidth: 0.5,
-        borderColor:'black',
+        borderColor: 'black',
     },
     armLeft: {
-        position:'absolute',
-        top:50,
-        left:-35,
+        position: 'absolute',
+        top: 50,
+        left: -35,
         borderRadius: 50,
-        width:60,
-        height:250,
+        width: 60,
+        height: 250,
         backgroundColor: '#B61F24',
-        overflow:'hidden',
-        transform: [{rotate: '340deg'}],
+        overflow: 'hidden',
+        transform: [{ rotate: '340deg' }],
     },
     armRight: {
-       position:'absolute',
-        top:50,
-        left:250,
+        position: 'absolute',
+        top: 50,
+        left: 250,
         borderRadius: 50,
-        width:60,
-        height:250,
+        width: 60,
+        height: 250,
         backgroundColor: '#B61F24',
-        overflow:'hidden',
-        transform: [{rotate: '200deg'}], 
+        overflow: 'hidden',
+        transform: [{ rotate: '200deg' }],
     },
     avatar: {
         position: 'absolute',
         width: 100,
-        height:100,
-        
+        height: 100,
+
     },
     rope: {
         position: 'absolute',
-        width:100,
-        height:50,
-        left:130,
-        transform: [{rotate: '90deg'}],
+        width: 100,
+        height: 50,
+        left: 130,
+        transform: [{ rotate: '90deg' }],
+    },
+    currentWordStyle: {
+        top: 250,
+        color: '#f73b8c',
+        fontWeight: 'bold',
+        fontSize: 30,
+        position: 'absolute',
+        margin: 'auto'
     },
     gameOver: {
-        width:300,
-        height:400,
-        opacity:1,
+        width: 300,
+        height: 400,
+        opacity: 1,
         position: 'absolute',
         top: 25,
-        left:25,
+        left: 25,
         resizeMode: 'contain',
     },
     greyScreen: {
-        width:400,
-        height:750,
-        position:'absolute',
-        left:400,
+        width: 400,
+        height: 750,
+        position: 'absolute',
+        left: 400,
         backgroundColor: '#8aa3ad',
         opacity: 0.7,
     }
-    
 
 });

@@ -26,6 +26,7 @@ export default class HomeView extends Component {
       loginHeight: height/2 + 240, 
       dirty: false, 
       username: '', 
+      image : '',
       uri:'https://d2d00szk9na1qq.cloudfront.net/Product/8c8a442f-238a-4644-afc4-d46ef7778b5d/Images/Large_RFR-005.jpg',
       objectId: '',
     }
@@ -50,10 +51,10 @@ export default class HomeView extends Component {
     });
     Alert.alert("item saved successfully");
 
-    this.props.navigation.navigate('Chomp' , {
-            objectId: postid
-            
-          });
+    this.props.navigation.navigate('Chomp', {
+      someImage: this.state.image,
+      objectId: postid
+    });
   }
 
 
@@ -140,11 +141,12 @@ export default class HomeView extends Component {
                 rounded
                 source={{
                   uri:
-                    'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png',
+                    'https://ya-webdesign.com/images/transparent-temmie-pixel-1.png',
                 }}
                 size="large"
                 onPress={() => this.setState({
-                  uri: 'https://i.pinimg.com/originals/93/c0/ed/93c0ed59f9a1afb95eb37a1274160bf4.png'
+                  uri: 'https://ya-webdesign.com/images/transparent-temmie-pixel-1.png',
+                  image: 'https://ya-webdesign.com/images/transparent-temmie-pixel-1.png'
                 })}
                 activeOpacity={0.7}
                 containerStyle={{marginTop: 125, marginBottom: 30, marginRight: 40, position: 'absolute', left: -30}}
@@ -156,11 +158,12 @@ export default class HomeView extends Component {
                   rounded
                   source={{
                     uri:
-                      'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif',
+                      'http://www.stickpng.com/assets/images/58a20c66c8dd3432c6fa8223.png',
                   }}
                   size="large"
                   onPress={() => this.setState({
-                    uri: 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif'
+                    uri: 'http://www.stickpng.com/assets/images/58a20c66c8dd3432c6fa8223.png',
+                    image: 'http://www.stickpng.com/assets/images/58a20c66c8dd3432c6fa8223.png'
                   })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2-  width/4 - 13 }}
@@ -170,11 +173,12 @@ export default class HomeView extends Component {
                   rounded
                   source={{
                     uri:
-                      'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423',
+                      'http://pixelartmaker.com/art/717400a4542c897.png',
                   }}
                   size="large"
                   onPress={() => this.setState({
-                      uri: 'https://cdn.shopify.com/s/files/1/0822/1983/articles/undertale-monster-kid-pixel-art-pixel-art-undertale-monster-kid-monster-pixel-8bit.png?v=1501253423'
+                      uri: 'http://pixelartmaker.com/art/717400a4542c897.png',
+                      image: 'http://pixelartmaker.com/art/717400a4542c897.png'
                     })}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
