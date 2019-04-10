@@ -33,6 +33,7 @@ export default class ChompComponent extends React.Component {
             isModalVisible: false,
             visible: false,
             items: [],
+            gameOverMove: new Animated.Value(400),
         };
     };
 
@@ -63,9 +64,14 @@ export default class ChompComponent extends React.Component {
     ]),
     Animated.sequence([
         Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+        Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000}),
+        Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500}),
         Animated.timing(this.state.monMouth, { toValue: 1, duration: 500,}),
+        Animated.timing(this.state.gameOverMove, {toValue:0, duration: 1000,}),
+        Animated.timing(this.state.gameOverMove, {toValue:400, duration: 1000,})
     ])
         ]).start()
+
 
     
 
@@ -120,6 +126,7 @@ export default class ChompComponent extends React.Component {
     }
     render() {
         let imageGameBack = require("./back2.png");
+        let gameOver = require("./Game-Over.png")
         const { navigation } = this.props;
         const someId = navigation.getParam('someId', 'NO-ID');
         const someName = navigation.getParam('someName', 'No title');
@@ -152,6 +159,15 @@ export default class ChompComponent extends React.Component {
           source={{uri: someImage}}
           style={[styles.avatar, {opacity: this.state.avaOpacity, top: this.state.avaTop, left:this.state.avaSide}]}>
         </Animated.Image>
+
+        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+        <Animated.Image 
+        source={gameOver}
+        style={styles.gameOver}>
+        </Animated.Image>
+        </Animated.View>
+
+        
 
         <Text style={{left: 25, top: 75, color: 'white', fontWeight: 'bold', fontSize: 12}}>Player: {someName}</Text>
         <Text style={{left: 25, top: 80, color: 'white', fontWeight: 'bold', fontSize: 12}}>Current word: {this.state.currentWord}</Text>
@@ -331,6 +347,23 @@ const styles = StyleSheet.create({
         height:50,
         left:130,
         transform: [{rotate: '90deg'}],
+    },
+    gameOver: {
+        width:300,
+        height:400,
+        opacity:1,
+        position: 'absolute',
+        top: 25,
+        left:25,
+        resizeMode: 'contain',
+    },
+    greyScreen: {
+        width:400,
+        height:750,
+        position:'absolute',
+        left:400,
+        backgroundColor: '#8aa3ad',
+        opacity: 0.7,
     }
     
 
