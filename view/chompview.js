@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight, Dimensions, FlatList } from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import TimerCountdown from "react-native-timer-countdown";
+import { db } from '../db.js';
 
+let itemsRef = db.ref('/items');
 var randomWords = require('random-words');
+let height = Dimensions.get('window').height
+let width = Dimensions.get('window').width
+
 
 export default class ChompComponent extends React.Component {
 
@@ -28,6 +33,8 @@ export default class ChompComponent extends React.Component {
             avaOpacity: new Animated.Value(1),
             isModalVisible: false,
             visible: false,
+            items: [],
+            gameOverMove: new Animated.Value(400),
         };
     };
 
@@ -48,8 +55,6 @@ export default class ChompComponent extends React.Component {
             currentWord: randWords[0]
         });;
 
-
-
         Animated.sequence([
             Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
 
@@ -59,14 +64,13 @@ export default class ChompComponent extends React.Component {
             ]),
             Animated.sequence([
                 Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+                Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
+                Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
                 Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+                Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
             ])
         ]).start()
-
-
-
-
-
 
     };
 
@@ -104,8 +108,23 @@ export default class ChompComponent extends React.Component {
     }
 
 
+    componentDidMount() {
+
+        itemsRef.ref.on('value', (snapshot) => {
+            const userObj = snapshot.val();
+            // this.name = userObj.name;
+            // this.avatar = userObj.avatar;
+            let data = snapshot.val();
+            let items = Object.values(data);
+            this.setState({ items });
+            console.log(this.state.items)
+        });
+
+
+    }
     render() {
         let imageGameBack = require("./back2.png");
+        let gameOver = require("./Game-Over.png")
         const { navigation } = this.props;
         const someId = navigation.getParam('someId', 'NO-ID');
         const someName = navigation.getParam('someName', 'No title');
@@ -154,6 +173,15 @@ export default class ChompComponent extends React.Component {
           style={[styles.avatar, {opacity: this.state.avaOpacity, top: this.state.avaTop, left:this.state.avaSide}]}>
         </Animated.Image>
 
+        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+        <Animated.Image 
+        source={gameOver}
+        style={styles.gameOver}>
+        </Animated.Image>
+        </Animated.View>
+
+        
+
         <Text style={{left: 25, top: 75, color: 'white', fontWeight: 'bold', fontSize: 12}}>Player: {someName}</Text>
         <Text style={styles.current}>{this.state.currentWord}</Text>
         <Text style={{left: 25, top: 90, color: 'white', fontWeight: 'bold', fontSize: 12}}>Score: {this.state.score}</Text>
@@ -179,7 +207,7 @@ export default class ChompComponent extends React.Component {
 
 
         <Button
-            title="Show Dialog"
+            title="Show Scoreboard"
             onPress={() => {
               this.setState({ visible: true });
             }}
@@ -189,13 +217,19 @@ export default class ChompComponent extends React.Component {
             onTouchOutside={() => {
               this.setState({ visible: false });
             }}
+            dialogStyle={{height: height-140, width: width- 20}}
           >
             <DialogContent>
-              <Text> THIS IS SCOREBOARD </Text>
+              <Text style = {{ textAlign: 'center', fontSize: 25}}> SCOREBOARD </Text>
+                 <FlatList
+                    style={{width: '100%'}}
+                    data={this.state.items}
+                    renderItem={({item}) => <Text style={[{padding: 15, borderColor: 'black', borderWidth: 2, fontSize: 15, textAlign: 'center'}]}>{item.name}</Text>}
+                    keyExtractor={(item, index) => index.toString()}
+                />
             </DialogContent>
           </Dialog>
         
-     
  
         </ImageBackground>
       </View>
@@ -333,6 +367,27 @@ const styles = StyleSheet.create({
         fontSize: 30,
         position: 'absolute',
         margin: 'auto'
+        width: 100,
+        height: 50,
+        left: 130,
+        transform: [{ rotate: '90deg' }],
+    },
+    gameOver: {
+        width: 300,
+        height: 400,
+        opacity: 1,
+        position: 'absolute',
+        top: 25,
+        left: 25,
+        resizeMode: 'contain',
+    },
+    greyScreen: {
+        width: 400,
+        height: 750,
+        position: 'absolute',
+        left: 400,
+        backgroundColor: '#8aa3ad',
+        opacity: 0.7,
     }
 
 });
