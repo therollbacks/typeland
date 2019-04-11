@@ -74,8 +74,11 @@ export default class ChompComponent extends React.Component {
     };
 
     decrementClock = () => {
-        if (this.state.timer === 0) {this._timesUp();};
-        this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
+        if (this.state.timer === 0) {
+            this._timesUp();
+        } else {
+            this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
+        }
     };
 
     _nextWords = () => {
@@ -124,16 +127,21 @@ export default class ChompComponent extends React.Component {
     };
 
     _timesUp = () => {
-        console.log('times up!')
-        Animated.sequence([
-            Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
-            Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
-            Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
-            Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
-            Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
-            Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
-            /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
-        ]).start()
+        if (this.state.badScore < 2) {
+            this.setState({
+                badScore: this.state.badScore + 1
+            })
+        } else {
+            Animated.sequence([
+                Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
+                Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+                Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
+                Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
+                Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+                /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
+            ]).start()
+        }
 
     }
 
@@ -187,7 +195,7 @@ export default class ChompComponent extends React.Component {
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
         
         <View style={{position: 'absolute', top: 25, right: 25}}>
-                <Text>{this.state.timer}</Text>
+                <Text style={{ fontSize:20, fontWeight: 'bold', color: 'white'}}>{this.state.timer}</Text>
         </View>
 
         <Animated.View style={[styles.monBody,{height: this.state.monHeight}]}>
