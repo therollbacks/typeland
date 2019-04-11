@@ -79,7 +79,7 @@ export default class HomeView extends Component {
     }
 
     _changeName = (userinput) => {
-        this.setState({name: userinput, movePlay: 0})
+        this.setState({name: userinput, movePlay: 150})
 
     }
 
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
    button2: {
     position: 'absolute', 
     marginBottom: 30,
-    left: '12.5%',
+    left: 75,
     width: 170,
     marginTop: 220,
     alignItems: 'center',
