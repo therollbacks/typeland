@@ -9,7 +9,6 @@ import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {db} from '../db.js';
 import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
-import Confetti from 'react-native-confetti';
 import renderIf from './renderIf';
 
 
@@ -110,25 +109,18 @@ export default class ChompComponent extends React.Component {
         } else if (userInput.length >= curr.length) {
 
             this._nextWords();
-
             this.setState({
-                timer: 5,
                 typedWord: '',
-                badScore: this.state.badScore + 1
             });
-
-            if (this.state.badScore >= 3) {
-                this._timesUp();
-            }
-
-
+            this._timesUp();
         }
     };
 
     _timesUp = () => {
-        if (this.state.badScore < 2) {
+        if (this.state.badScore < 3) {
             this.setState({
-                badScore: this.state.badScore + 1
+                badScore: this.state.badScore + 1,
+                timer:5
             })
         } else {
             Animated.sequence([
@@ -141,10 +133,18 @@ export default class ChompComponent extends React.Component {
                 /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
             ]).start()
 
-        this.props.navigation.navigate('Over', {
-            params: {objectId: this.state.objectId,
-                    score: this.state.score}
-          });
+
+            setTimeout(
+                function() {
+                    this.props.navigation.navigate('Over', {
+                        params: {objectId: this.state.objectId,
+                                score: this.state.score}
+                    });
+                }
+                .bind(this),
+                5000
+            );
+            
         
         }
 
@@ -164,12 +164,6 @@ export default class ChompComponent extends React.Component {
             this.setState({ items });
             console.log(this.state.items)
         });
-
-         if(this._confettiView) {
-           this._confettiView.startConfetti();
-        };
-
-       
     }
 
     componentWillUnmount() {
