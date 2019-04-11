@@ -117,7 +117,7 @@ export default class ChompComponent extends React.Component {
     };
 
     _timesUp = () => {
-        if (this.state.badScore < 3) {
+        if (this.state.badScore < 2) {
             this.setState({
                 badScore: this.state.badScore + 1,
                 timer:5
