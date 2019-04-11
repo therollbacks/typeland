@@ -124,7 +124,7 @@ export default class GameOverView extends React.Component {
         return (
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>     
-            <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
+            <ImageBackground source={{uri: 'https://cdn.weasyl.com/~persegan/submissions/1605649/a224d62ba32ed6a256c3bdfaf0a370f2cd8ca040d804720d597b8a6010218a49/persegan-pixel-art-city-background.jpg'}} style={{width: '100%', height: '100%'}}>
             <Confetti ref={(node) => this._confettiView = node}/>
 
             <Animated.View style={[styles.greyScreen]}>
