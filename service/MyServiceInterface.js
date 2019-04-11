@@ -15,17 +15,8 @@ export const addItem = (item, uri, score) => {
 export const updateItem = (objectid, score) => {
 	
 	var adaNameRef = db.ref('/items/' + objectid);
-
 	adaNameRef.update({ score: score });
+
 }
 
-// export const sortItem = (objectid) => {
-	
 
-//         db.ref("/items").orderByChild("")
-//         .limitToFirst(5)
-//         .once("value")
-//         .then(function(snapshot){ ... })
-
-
-// }
