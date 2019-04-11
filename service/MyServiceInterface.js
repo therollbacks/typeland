@@ -18,3 +18,14 @@ export const updateItem = (objectid, score) => {
 
 	adaNameRef.update({ score: score });
 }
+
+// export const sortItem = (objectid) => {
+	
+
+//         db.ref("/items").orderByChild("")
+//         .limitToFirst(5)
+//         .once("value")
+//         .then(function(snapshot){ ... })
+
+
+// }
