@@ -16,6 +16,9 @@ export default class HomeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      startBorderColor: '#d41302',
+      startBorderWidth: 5,
+      startBorderRadius: 10,
       movePlay: 1500,
       movePlayWidth: 230,
       name  : '',
@@ -189,10 +192,10 @@ export default class HomeView extends Component {
                       image: 'http://pixelartmaker.com/art/717400a4542c897.png'
                     })}
                   activeOpacity={0.7}
-                  containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
+                  containerStyle={{marginTop: 100,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2 }}
                 />
 
-                <View style = {styles.button2, {top: this.state.movePlay, width: this.state.movePlayWidth}}>
+                <View style = {styles.button2, {top: this.state.movePlay, width: this.state.movePlayWidth, borderRadius: this.state.startBorderRadius, borderWidth: this.state.startBorderWidth, borderColor: this.state.startBorderColor}}>
                   <Button onPress={this.handleSubmit} color="#d41302" title="Play"/>
                 </View>
 
