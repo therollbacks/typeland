@@ -1,10 +1,9 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://9s-kkb.anonymous.typeland.exp.direct",
+  "packagerNgrokUrl": "https://packager.9s-kkb.anonymous.typeland.exp.direct",
+  "ngrokPid": 12112,
   "devToolsPort": 19002,
-  "packagerPort": null,
-  "packagerPid": null
+  "packagerPort": 19001,
+  "packagerPid": 12360
 }
