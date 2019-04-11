@@ -84,7 +84,7 @@ export default class HomeView extends Component {
     }
 
     _changeName = (userinput) => {
-        this.setState({name: userinput, movePlay: 150})
+        this.setState({name: userinput, movePlay: 125})
 
     }
 
