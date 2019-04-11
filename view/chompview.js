@@ -86,23 +86,6 @@ export default class ChompComponent extends React.Component {
         this.setState({
             currentWord: randWords[0]
         });;
-
-        // Animated.sequence([
-        //     Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
-
-        //     Animated.parallel([
-        //         Animated.timing(this.state.monMouth, { toValue: 1, duration: 250 }),
-        //         Animated.timing(this.state.monPupil, { toValue: 30, duration: 500 }),
-        //     ]),
-        //     Animated.sequence([
-        //         Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
-        //         Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
-        //         Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
-        //         Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
-        //         Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
-        //         Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })
-        //     ])
-        // ]).start()
     };
 
     _checkWords = (userInput) => {
@@ -127,9 +110,14 @@ export default class ChompComponent extends React.Component {
             this._nextWords();
 
             this.setState({
+                timer: 5,
                 typedWord: '',
                 badScore: this.state.badScore + 1
             });
+
+            if (this.state.badScore >= 3) {
+                this._timesUp();
+            }
 
 
         }
