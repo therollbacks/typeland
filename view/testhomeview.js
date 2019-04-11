@@ -17,6 +17,7 @@ export default class HomeView extends Component {
     super(props);
     this.state = {
       movePlay: 1500,
+      movePlayWidth: 230,
       name  : '',
       password: '',  
       timePassed: false, 
@@ -190,7 +191,7 @@ export default class HomeView extends Component {
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
                 />
 
-                <View style = {styles.button2, {top: this.state.movePlay}}>
+                <View style = {styles.button2, {top: this.state.movePlay, width: this.state.movePlayWidth}}>
                   <Button onPress={this.handleSubmit} color="#d41302" title="Play"/>
                 </View>
 
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     marginBottom: 30,
     left: 75,
-    width: 170,
+    width: 140,
     marginTop: 220,
     alignItems: 'center',
     borderColor: '#d41302',
