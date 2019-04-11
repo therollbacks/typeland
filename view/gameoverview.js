@@ -9,6 +9,7 @@ import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {db} from '../db.js';
 import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
+import {sortItem} from '../service/MyServiceInterface';
 import Confetti from 'react-native-confetti';
 import renderIf from './renderIf';
 
@@ -46,12 +47,8 @@ export default class GameOverView extends React.Component {
             visible: false,
             items: [],
             gameOverMove: new Animated.Value(400),
-            scoreTest: 3,
-            username: 'uu',
             objectId:'',
             params:this.props.navigation.state.params,
-            scoreboardOpa: 0,
-
         };
     };
   
@@ -71,20 +68,8 @@ export default class GameOverView extends React.Component {
          if(this._confettiView) {
            this._confettiView.startConfetti();
         };
-
-       
+      
     }
-
-    componentWillUnmount() {
-        clearInterval(this.clockCall);
-    }
-
-    _renderSeparator(sectionID,rowID){
-        return (
-            <View style={styles.separatorLine} key={"sectionID_"+sectionID+"_rowID_"+rowID}></View>
-        );
-    }
-
 
     render() {
         let imageGameBack = require("./back2.png");
