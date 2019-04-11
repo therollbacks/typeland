@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
 import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, 
-        Animated, TouchableHighlight, Dimensions, FlatList, ScrollView} from 'react-native';
+        Animated, TouchableHighlight, Dimensions, FlatList, ScrollView, Keyboard} from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
@@ -51,6 +51,7 @@ export default class ChompComponent extends React.Component {
             objectId:'',
             params:this.props.navigation.state.params,
             scoreboardOpa: 0,
+            missOpac: new Animated.Value(0),
 
         };
     };
@@ -124,6 +125,10 @@ export default class ChompComponent extends React.Component {
                 timer:5,
             })
             Animated.timing(this.state.monHeight, {toValue: 400, duration:1000}).start()
+            Animated.sequence([
+                Animated.timing(this.state.missOpac, {toValue: 1, duration: 250}),
+                Animated.timing(this.state.missOpac, {toValue: 0, duration: 250})
+                ]).start()
 
         }
         else if (this.state.badScore == 1) {
@@ -132,12 +137,21 @@ export default class ChompComponent extends React.Component {
                 timer: 5,
             })
             Animated.timing(this.state.monHeight, {toValue: 500, duration: 1000}).start()
+            Animated.sequence([
+                Animated.timing(this.state.missOpac, {toValue: 1, duration: 250}),
+                Animated.timing(this.state.missOpac, {toValue: 0, duration: 250})
+                ]).start()
     
         } else {
+            Keyboard.dismiss();
+            Animated.sequence([
+                Animated.timing(this.state.missOpac, {toValue: 1, duration: 250}),
+                Animated.timing(this.state.missOpac, {toValue: 0, duration: 250})
+                ]).start()
             Animated.sequence([
                 Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
                 Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
-                Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
+                Animated.timing(this.state.avaTop, { toValue: 250, duration: 1000 }),
                 Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
                 Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
                 Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
@@ -198,7 +212,8 @@ export default class ChompComponent extends React.Component {
 
     render() {
         let imageGameBack = require("./back2.png");
-        let gameOver = require("./Game-Over.png")
+        let gameOver = require("./Game-Over.png");
+        let missed = require("./misspic.png");
         const { navigation } = this.props;
         const someId = navigation.getParam('someId', 'NO-ID');
         const someName = navigation.getParam('someName', 'No title');
@@ -217,6 +232,7 @@ export default class ChompComponent extends React.Component {
                 <Text style={{ fontSize:20, fontWeight: 'bold', color: 'white'}}>{this.state.timer}</Text>
         </View>
 
+
         <Animated.View style={[styles.monBody,{height: this.state.monHeight}]}>
         <View style={styles.armLeft}></View>
         <View style={styles.armRight}></View>
@@ -229,6 +245,11 @@ export default class ChompComponent extends React.Component {
                 </Animated.View>
         </Animated.View>
 
+        <Animated.Image 
+          source={missed}
+          style={[styles.misspic, {opacity: this.state.missOpac}]}>
+        </Animated.Image>
+
         <Image 
         source={{uri: 'https://png2.kisspng.com/sh/02a42433de43fde63ca1bc11ba29dde4/L0KzQYm3UsA2N6pnj5H0aYP2gLBuTgJweJYyfedsbHnndbL1TgZma6V0ip9tcnH6ebBuTgJweJYyTdMCOULmSIHrWPZiamIzT6MBNkS4R4a4VcE4QGo1TqoDOEi7SHB3jvc=/kisspng-rope-euclidean-vector-drawing-rope-5a792c80d8fab1.7166457515178906888888.png'}}
         style={styles.rope}
@@ -237,6 +258,8 @@ export default class ChompComponent extends React.Component {
           source={{uri: someImage}}
           style={[styles.avatar, {opacity: this.state.avaOpacity, top: this.state.avaTop, left:this.state.avaSide}]}>
         </Animated.Image>
+
+        
 
         {/*<Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
         <Animated.Image 
@@ -289,7 +312,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         position: 'absolute',
-        color: 'white',
+        color: '#aaaaaa',
         fontSize: 25
     },
     button: {
@@ -433,6 +456,15 @@ const styles = StyleSheet.create({
         left: 400,
         backgroundColor: '#8aa3ad',
         opacity: 0.7,
+    },
+    misspic: {
+        width: 300,
+        height: 400,
+        opacity: 1,
+        position: 'absolute',
+        top: 25,
+        left: 25,
+        resizeMode: 'contain',
     }
 
 });
