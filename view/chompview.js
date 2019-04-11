@@ -9,7 +9,6 @@ import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {db} from '../db.js';
 import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
-import {sortItem} from '../service/MyServiceInterface';
 
 import renderIf from './renderIf';
 
@@ -163,8 +162,8 @@ export default class ChompComponent extends React.Component {
             setTimeout(
                 function() {
                     updateItem(this.state.params.objectId, this.state.score);
-                    console.log("this.state.params.objectId is ", this.state.params.objectId);
-                    console.log("this.state.score is ", this.state.score)
+                    // console.log("this.state.params.objectId is ", this.state.params.objectId);
+                    // console.log("this.state.score is ", this.state.score)
                     this.props.navigation.navigate('Over', {
                         params: {objectId: this.state.params.objectId,
                                 score: this.state.score}
@@ -191,7 +190,7 @@ export default class ChompComponent extends React.Component {
             let data = snapshot.val();
             let items = Object.values(data);
             this.setState({ items });
-            console.log(this.state.items)
+            // console.log(this.state.items)
         });
     }
 
@@ -218,7 +217,7 @@ export default class ChompComponent extends React.Component {
         const { navigation } = this.props;
         const someId = navigation.getParam('someId', 'NO-ID');
         const someName = navigation.getParam('someName', 'No title');
-        console.log(someName)
+        // console.log(someName)
         const someImage = navigation.getParam('someImage', 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif')
         const someObjectId = navigation.getParam('objectId', 'objectId')
 

@@ -9,12 +9,11 @@ import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import {db} from '../db.js';
 import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
-import {sortItem} from '../service/MyServiceInterface';
 import Confetti from 'react-native-confetti';
 import renderIf from './renderIf';
 
 
-let itemsRef = db.ref('/items');
+var itemsRef = db.ref('items');
 var randomWords = require('random-words');
 let height = Dimensions.get('window').height
 let width = Dimensions.get('window').width
@@ -55,21 +54,61 @@ export default class GameOverView extends React.Component {
     //scoreboard stuff
     componentDidMount() {
 
-        itemsRef.ref.on('value', (snapshot) => {
-            const userObj = snapshot.val();
+        // itemsRef.ref.on('value', (snapshot) => {
+        //     const userObj = snapshot.val();
+        //     // this.name = userObj.name;
+        //     // this.avatar = userObj.avatar;
+        //     let data = snapshot.val();
+        //     let items = Object.values(data);
+        //     this.setState({ items });
+        //     // console.log(this.state.items)
+        // });
+        // var scoreRef = itemsRef.child("score")
+
+        itemsRef.orderByChild("score").on("value", (snapshot) => {
+
+             const userObj = snapshot.val();
+             goodList = []
+             snapshot.forEach(function(child) {
+                // console.log(child.val())
+                goodList.push(child.val())
+             });
+             console.log(goodList);
             // this.name = userObj.name;
             // this.avatar = userObj.avatar;
-            let data = snapshot.val();
-            let items = Object.values(data);
+            let items = goodList.reverse();
             this.setState({ items });
-            console.log(this.state.items)
+            // console.log(this.state.items)
         });
+
+
+
 
          if(this._confettiView) {
            this._confettiView.startConfetti();
         };
-      
+
+
+       
     }
+
+    // async function getCommunityUsers(): Promise<void>{
+
+    //     const snapshot = await itemsRef.orderByChild('score').once('value')
+
+    //     let users = []
+
+    //     snapshot.forEach(child => {
+    //         users.push({
+    //             key: child.key,
+    //             ...child.val()
+    //         })
+    //         return false
+    //     })
+
+    //     return users
+    // }
+   
 
     render() {
         let imageGameBack = require("./back2.png");
@@ -77,10 +116,9 @@ export default class GameOverView extends React.Component {
         const { navigation } = this.props;
         const someId = navigation.getParam('someId', 'NO-ID');
         const someName = navigation.getParam('someName', 'No title');
-        console.log(someName)
         const someImage = navigation.getParam('someImage', 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif')
         const someObjectId = navigation.getParam('objectId', 'objectId')
-        console.log("someObjectId passed into chompView is ", someObjectId)
+        // console.log("someObjectId passed into chompView is ", someObjectId)
 
 
         return (
