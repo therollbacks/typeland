@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
 import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, 
-        Animated, TouchableHighlight, Dimensions, FlatList, ScrollView} from 'react-native';
+        Animated, TouchableHighlight, Dimensions, FlatList, ScrollView, Keyboard} from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
@@ -135,6 +135,7 @@ export default class ChompComponent extends React.Component {
             Animated.timing(this.state.monHeight, {toValue: 500, duration: 1000}).start()
     
         } else {
+            Keyboard.dismiss();
             Animated.sequence([
                 Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
                 Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         position: 'absolute',
-        color: 'white',
+        color: '#aaaaaa',
         fontSize: 25
     },
     button: {
