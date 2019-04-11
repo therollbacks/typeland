@@ -13,7 +13,8 @@ import SignupView from "./components/signupcomponent"
 import HomeView from './view/testhomeview';
 import ChompView from './view/chompview';
 import GameOverView from './view/gameoverview';
-
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: ...']);
 
 const RootStack = createStackNavigator(
   {

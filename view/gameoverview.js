@@ -11,7 +11,8 @@ import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
 import Confetti from 'react-native-confetti';
 import renderIf from './renderIf';
-
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: ...']);
 
 var itemsRef = db.ref('items');
 var randomWords = require('random-words');

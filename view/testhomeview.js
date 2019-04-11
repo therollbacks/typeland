@@ -6,7 +6,8 @@ import FloatingLabelInput from './namecomponent.js'
 var FloatingLabel = require('react-native-floating-labels');
 import { Avatar } from 'react-native-elements';
 import {addItem} from '../service/MyServiceInterface';
-
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: ...']);
 let height =  Dimensions.get('window').height
 let width=  Dimensions.get('window').width
 
@@ -54,7 +55,6 @@ export default class HomeView extends Component {
     this.setState({
         objectId: postid
     });
-    Alert.alert("item saved successfully");
 
     this.props.navigation.navigate('Chomp', {
       someImage: this.state.image,
@@ -228,10 +228,9 @@ const styles = StyleSheet.create({
 
   button: {
     position: 'absolute', 
-    left: width/4,
+    left: 145,
     marginBottom: 30,
-    width: 170,
-    top: 210,
+    top: 250,
     alignItems: 'center',
     borderColor: '#d41302',
     borderWidth: 5,

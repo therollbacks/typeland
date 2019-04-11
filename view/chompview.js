@@ -11,7 +11,8 @@ import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
 
 import renderIf from './renderIf';
-
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning: ...']);
 
 let itemsRef = db.ref('/items');
 var randomWords = require('random-words');
