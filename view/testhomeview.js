@@ -29,6 +29,7 @@ export default class HomeView extends Component {
       username: '', 
       image : '',
       uri:'https://d2d00szk9na1qq.cloudfront.net/Product/8c8a442f-238a-4644-afc4-d46ef7778b5d/Images/Large_RFR-005.jpg',
+      objectId: '',
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,12 +45,17 @@ export default class HomeView extends Component {
     console.log("handling submit")
     console.log(this.state.name)
     console.log(this.state.uri)
-    addItem(this.state.name, this.state.uri);
-    Alert.alert("item saved successfully");
-    this.props.navigation.navigate('Chomp', {
-      someImage: this.state.image
+    postid = addItem(this.state.name, this.state.uri);
+    console.log("postid is ", postid);
+    this.setState({
+        objectId: postid
     });
+    Alert.alert("item saved successfully");
 
+    this.props.navigation.navigate('Chomp', {
+      someImage: this.state.image,
+      objectId: postid
+    });
   }
 
 
@@ -80,7 +86,9 @@ export default class HomeView extends Component {
     btnToChomp () {
       console.log('btnToChomp');
       this.handleSubmit;
-      this.props.navigation.navigate('Chomp');
+      this.props.navigation.navigate('Chomp', {
+        params: {objectId: this.state.objectId}
+      });
     }
 
     componentDidMount() {

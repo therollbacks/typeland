@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Root } from "native-base";
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, Animated, TouchableHighlight, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, ImageBackground, Image, 
+        Animated, TouchableHighlight, Dimensions, FlatList, ScrollView} from 'react-native';
 import { Font, AppLoading } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
-import TimerCountdown from "react-native-timer-countdown";
-import { db } from '../db.js';
+import {db} from '../db.js';
+import { Avatar,ListItem } from 'react-native-elements';
+import {updateItem} from '../service/MyServiceInterface';
 import renderIf from './renderIf';
 
 let itemsRef = db.ref('/items');
@@ -17,9 +19,13 @@ let width = Dimensions.get('window').width
 
 export default class ChompComponent extends React.Component {
 
-    constructor(props) {
-        super(props)
+    static navigationOptions = ({ navigation }) => {
+        const { params } = navigation.state;
+        return params;
+    };
 
+    constructor(props) {
+        super(props);
         this.state = {
             timer: 5,
             typedWord: '',
@@ -38,7 +44,16 @@ export default class ChompComponent extends React.Component {
             visible: false,
             items: [],
             gameOverMove: new Animated.Value(400),
+            scoreTest: 3,
+            username: 'uu',
+            objectId:'',
+            params:this.props.navigation.state.params,
+            scoreboardOpa: 0,
+
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.tryparams = 'tryparams'
+
     };
 
     _runAnimation = () => {
@@ -134,7 +149,7 @@ export default class ChompComponent extends React.Component {
 
     }
 
-
+    //scoreboard stuff
     componentDidMount() {
 
         itemsRef.ref.on('value', (snapshot) => {
@@ -152,6 +167,19 @@ export default class ChompComponent extends React.Component {
         clearInterval(this.clockCall);
     }
 
+    _renderSeparator(sectionID,rowID){
+        return (
+            <View style={styles.separatorLine} key={"sectionID_"+sectionID+"_rowID_"+rowID}></View>
+        );
+    }
+
+    handleSubmit() {
+        this.setState({ visible: true, scoreboardOpa: 1});
+        updateItem(this.state.params.objectId, this.state.score);
+        console.log('this.state.params.objectId', this.state.params.objectId);
+
+      }
+
     render() {
         let imageGameBack = require("./back2.png");
         let gameOver = require("./Game-Over.png")
@@ -160,6 +188,10 @@ export default class ChompComponent extends React.Component {
         const someName = navigation.getParam('someName', 'No title');
         console.log(someName)
         const someImage = navigation.getParam('someImage', 'https://i.pinimg.com/originals/08/97/f6/0897f6353b2469da4b9501462d9c08aa.gif')
+        const someObjectId = navigation.getParam('objectId', 'objectId')
+        console.log("someObjectId passed into chompView is ", someObjectId)
+
+
         return (
 
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
@@ -225,6 +257,41 @@ export default class ChompComponent extends React.Component {
           )}
         </View>
 
+
+        <View style = {{top: 330}}> 
+              <Dialog
+                visible={this.state.visible}
+                onTouchOutside={() => {
+                  this.setState({ visible: false });
+                }}
+                dialogStyle={{height: height-140, width: width- 20, backgroundColor: '#d1cfce'}}
+              >
+                <DialogContent>
+                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20, fontWeight: 'bold', color: '#4a4847'}}> SCOREBOARD </Text>
+
+                    <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', marginTop: 10, 
+                                        marginBottom: 10, height: 370 }}>
+                      {
+                        this.state.items.map((l, i) => (
+                       
+                          <ListItem
+                            key = {i}
+                            leftAvatar={{ source: { uri: l.avatar} }}
+                            title={l.name}
+                            subtitle= {
+                                <View> 
+                                    <Text> Score: {l.score} </Text>
+                                </View>
+                            }
+                          /> 
+                        ))
+
+                      }
+                    </ScrollView> 
+                </DialogContent>
+              </Dialog>
+          </View>
+
         <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
         <Animated.Image 
         source={gameOver}
@@ -233,34 +300,12 @@ export default class ChompComponent extends React.Component {
         <View style={styles.buttonMove}>
             <Button
             title="Show Scoreboard"
-            onPress={() => {
-              this.setState({ visible: true });
-            }}
+            onPress= {this.handleSubmit}
+
           />
           </View>
         </Animated.View>
-
-        
-          <Dialog
-            visible={this.state.visible}
-            onTouchOutside={() => {
-              this.setState({ visible: false });
-            }}
-            dialogStyle={{height: height-140, width: width- 20}}
-          >
-            <DialogContent>
-              <Text style = {{ textAlign: 'center', fontSize: 25}}> SCOREBOARD </Text>
-                 <FlatList
-                    style={{width: '100%'}}
-                    data={this.state.items}
-                    renderItem={({item}) => <Text style={[{padding: 15, borderColor: 'black', borderWidth: 2, fontSize: 15, textAlign: 'center'}]}>{item.name}</Text>}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </DialogContent>
-          </Dialog>
-        
- 
-        </ImageBackground>
+      </ImageBackground>
       </View>
         );
     }
