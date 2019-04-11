@@ -229,7 +229,7 @@ export default class ChompComponent extends React.Component {
         <ImageBackground source={{uri: 'https://cdn.weasyl.com/~persegan/submissions/1605649/a224d62ba32ed6a256c3bdfaf0a370f2cd8ca040d804720d597b8a6010218a49/persegan-pixel-art-city-background.jpg'}} style={{width: '100%', height: '100%'}}>
         
         <View style={{position: 'absolute', top: 25, right: 25}}>
-                <Text style={{ fontSize:20, fontWeight: 'bold', color: 'white'}}>{this.state.timer}</Text>
+                <Text style={{ fontSize:70, fontWeight: 'bold', color: 'white'}}>{this.state.timer}</Text>
         </View>
 
 
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         position: 'absolute',
-        color: '#aaaaaa',
+        color: '#4c4c4c',
         fontSize: 25
     },
     button: {
