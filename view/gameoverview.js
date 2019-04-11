@@ -100,43 +100,41 @@ export default class GameOverView extends React.Component {
 
         return (
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
-            
-        <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>     
+            <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
+            <Confetti ref={(node) => this._confettiView = node}/>
 
-        <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+            <Animated.View style={[styles.greyScreen]}>
+            <Animated.Image 
+            source={gameOver}
+            style={styles.gameOver}>
+            </Animated.Image>
 
-        <Animated.Image 
-        source={gameOver}
-        style={styles.gameOver}>
-        </Animated.Image>
+               <View style = {{ left: -9, top: 150, margin: 25, height: height-240, width: width-30, 
+                        backgroundColor: '#d1cfce', opacity: 1, borderRadius: 8}}> 
+                      <Text style = {{ textAlign: 'center', fontSize: 25, margin: 5, fontWeight: 'bold', color: '#4a4847'}}> SCOREBOARD </Text>
+                        <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', margin: 20 }}>
+                          {
+                            this.state.items.map((l, i) => (
+                           
+                              <ListItem
+                                key = {i}
+                                leftAvatar={{ source: { uri: l.avatar} }}
+                                title={l.name}
+                                subtitle= {
+                                    <View> 
+                                        <Text> Score: {l.score} </Text>
+                                    </View>
+                                }
+                              /> 
+                            ))
 
-           <View style = {{position: 'absolute', top: 250, margin: 50, height: height-240, width: width-30, backgroundColor: '#d1cfce'}}> 
-             <Confetti ref={(node) => this._confettiView = node}/>
-                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20, fontWeight: 'bold', color: '#4a4847'}}> SCOREBOARD </Text>
-                    <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', marginTop: 10, 
-                                        marginBottom: 10 }}>
-                      {
-                        this.state.items.map((l, i) => (
-                       
-                          <ListItem
-                            key = {i}
-                            leftAvatar={{ source: { uri: l.avatar} }}
-                            title={l.name}
-                            subtitle= {
-                                <View> 
-                                    <Text> Score: {l.score} </Text>
-                                </View>
-                            }
-                          /> 
-                        ))
-
-                      }
-                    </ScrollView> 
-              
-          </View>
-        </Animated.View>
-      </ImageBackground>
+                          }
+                        </ScrollView> 
+                  
+              </View>
+            </Animated.View>
+          </ImageBackground>
       </View>
         );
     }
@@ -283,7 +281,7 @@ const styles = StyleSheet.create({
     },
     gameOver: {
         width: 300,
-        height: 400,
+        height: 200,
         opacity: 1,
         position: 'absolute',
         top: 25,
@@ -294,9 +292,7 @@ const styles = StyleSheet.create({
         width: 400,
         height: 750,
         position: 'absolute',
-        left: 400,
-        backgroundColor: '#8aa3ad',
-        opacity: 0.7,
+        
     }
 
 });
