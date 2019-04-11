@@ -13,6 +13,7 @@
     "random-words": "^1.1.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-confetti": "^0.1.0",
     "react-native-elements": "^1.1.0",
     "react-native-floating-labels": "^1.1.9",
     "react-native-popup-dialog": "^0.18.2",

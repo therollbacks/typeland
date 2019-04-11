@@ -11,7 +11,7 @@ import { Avatar,ListItem } from 'react-native-elements';
 import {updateItem} from '../service/MyServiceInterface';
 
 import TimerCountdown from "react-native-timer-countdown";
-
+import Confetti from 'react-native-confetti';
 
 let itemsRef = db.ref('/items');
 var randomWords = require('random-words');
@@ -146,6 +146,12 @@ export default class ChompComponent extends React.Component {
             this.setState({ items });
             console.log(this.state.items)
         });
+
+         if(this._confettiView) {
+           this._confettiView.startConfetti();
+        };
+
+       
     }
 
     _renderSeparator(sectionID,rowID){
@@ -158,6 +164,7 @@ export default class ChompComponent extends React.Component {
         this.setState({ visible: true, scoreboardOpa: 1});
         updateItem(this.state.params.objectId, this.state.score);
         console.log('this.state.params.objectId', this.state.params.objectId);
+        
 
       }
 
@@ -175,10 +182,10 @@ export default class ChompComponent extends React.Component {
 
         return (
 
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
             
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
-        
+
         <View style={{width: 500, height: 500, position: 'absolute', justifyContent: 'center'}}>
                 <TimerCountdown
                     initialMilliseconds={5000}
@@ -249,7 +256,7 @@ export default class ChompComponent extends React.Component {
         </View>
 
 
-        <View style = {{top: 330}}> 
+        <View style = {{top: 330, opacity: this.state.scoreboardOpa}}> 
               <Dialog
                 visible={this.state.visible}
                 onTouchOutside={() => {
@@ -257,9 +264,12 @@ export default class ChompComponent extends React.Component {
                 }}
                 dialogStyle={{height: height-140, width: width- 20, backgroundColor: '#d1cfce'}}
               >
-                <DialogContent>
-                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20, fontWeight: 'bold', color: '#4a4847'}}> SCOREBOARD </Text>
 
+                <DialogContent>
+                
+                    <Confetti ref={(node) => this._confettiView = node}/>
+
+                  <Text style = {{ textAlign: 'center', fontSize: 25, margin: 20, fontWeight: 'bold', color: '#4a4847'}}> SCOREBOARD </Text>
                     <ScrollView style = {{borderRadius: 5, borderWidth: 2, borderColor: 'black', marginTop: 10, 
                                         marginBottom: 10, height: 370 }}>
                       {
@@ -284,6 +294,7 @@ export default class ChompComponent extends React.Component {
           </View>
 
         <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
+
         <Animated.Image 
         source={gameOver}
         style={styles.gameOver}>

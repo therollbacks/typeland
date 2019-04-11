@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://vw-f69.anonymous.typeland.exp.direct",
   "packagerNgrokUrl": "https://packager.vw-f69.anonymous.typeland.exp.direct",
-  "ngrokPid": 13716,
+  "ngrokPid": 8180,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 7508
+  "packagerPid": 8092
 }
