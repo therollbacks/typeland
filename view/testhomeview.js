@@ -55,7 +55,8 @@ export default class HomeView extends Component {
 
     this.props.navigation.navigate('Chomp', {
       someImage: this.state.image,
-      objectId: postid
+      objectId: postid,
+      someName: this.state.name
     });
   }
 
