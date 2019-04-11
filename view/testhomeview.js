@@ -16,6 +16,7 @@ export default class HomeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      movePlay: 1500,
       name  : '',
       password: '',  
       timePassed: false, 
@@ -77,6 +78,11 @@ export default class HomeView extends Component {
       });
     }
 
+    _changeName = (userinput) => {
+        this.setState({name: userinput, movePlay: 0})
+
+    }
+
     btnToChomp () {
       console.log('btnToChomp');
       this.handleSubmit;
@@ -121,7 +127,7 @@ export default class HomeView extends Component {
               <TextInput style={styles.inputs}
                   placeholder="Name"
                   underlineColorAndroid='transparent'
-                  onChangeText={(name) => this.setState({name})}/>
+                  onChangeText={name => this._changeName(name)}/>
             </View>
             
             <Text style = {{fontSize: 30, color:'#d41302', fontWeight: 'bold' }}> Pick an Avatar: </Text>
@@ -184,8 +190,8 @@ export default class HomeView extends Component {
                   containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2  }}
                 />
 
-                <View style = {styles.button2}>
-                  <Button onPress={this.handleSubmit}  color="#d41302" title="Play"/>
+                <View style = {styles.button2, {top: this.state.movePlay}}>
+                  <Button onPress={this.handleSubmit} color="#d41302" title="Play"/>
                 </View>
 
 
