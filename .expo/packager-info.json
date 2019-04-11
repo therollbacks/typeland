@@ -1,9 +1,4 @@
 {
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://xq-dsh.anonymous.typeland.exp.direct",
-  "packagerNgrokUrl": "https://packager.xq-dsh.anonymous.typeland.exp.direct",
-  "ngrokPid": 11084,
-  "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 1752
+  "packagerPort": null,
+  "packagerPid": null
 }

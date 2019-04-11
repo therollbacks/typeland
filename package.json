@@ -18,7 +18,8 @@
     "react-native-popup-dialog": "^0.18.2",
     "react-native-timer-countdown": "^4.1.0",
     "react-navigation": "^3.4.1",
-    "react-typing-animation": "^1.6.2"
+    "react-typing-animation": "^1.6.2",
+    "render-if": "^0.1.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

@@ -7,6 +7,7 @@ import { createStackNavigator } from 'react-navigation';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import TimerCountdown from "react-native-timer-countdown";
 import { db } from '../db.js';
+import renderIf from './renderIf';
 
 let itemsRef = db.ref('/items');
 var randomWords = require('random-words');
@@ -20,11 +21,13 @@ export default class ChompComponent extends React.Component {
         super(props)
 
         this.state = {
+            timer: 5,
             typedWord: '',
             currentWord: '',
             difficultyWords: 5,
             score: 0,
             badScore: 0,
+            startButtonVisible: true,
             monHeight: new Animated.Value(300),
             monMouth: new Animated.Value(1),
             monPupil: new Animated.Value(0),
@@ -39,11 +42,25 @@ export default class ChompComponent extends React.Component {
     };
 
     _runAnimation = () => {
+        this.setState({
+            startButtonVisible: false
+        });
         this.state.avaSide.setValue(125);
         Animated.sequence([
             Animated.timing(this.state.avaSide, { toValue: 120, duration: 150 }),
             Animated.timing(this.state.avaSide, { toValue: 130, duration: 150 })
         ]).start(() => this._runAnimation());
+    };
+
+    _startGame = () => {
+        this.clockCall = setInterval(() => {
+            this.decrementClock();
+        }, 1000);
+    };
+
+    decrementClock = () => {
+        if (this.state.timer === 0) {this._timesUp();};
+        this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
     };
 
     _nextWords = () => {
@@ -82,6 +99,7 @@ export default class ChompComponent extends React.Component {
             this._nextWords();
 
             this.setState({
+                timer: 5,
                 typedWord: '',
                 score: this.state.score + 1,
                 difficultyWords: this.state.difficultyWords + 1
@@ -105,14 +123,14 @@ export default class ChompComponent extends React.Component {
     _timesUp = () => {
         console.log('times up!')
         Animated.sequence([
-                Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
-                Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
-                Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
-                Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
-                Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
-                Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
-                /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
-            ]).start()
+            Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
+            Animated.timing(this.state.monMouth, { toValue: 150, duration: 500, }),
+            Animated.timing(this.state.avaTop, { toValue: 300, duration: 1000 }),
+            Animated.timing(this.state.avaOpacity, { toValue: 0, duration: 500 }),
+            Animated.timing(this.state.monMouth, { toValue: 1, duration: 500, }),
+            Animated.timing(this.state.gameOverMove, { toValue: 0, duration: 1000, }),
+            /*Animated.timing(this.state.gameOverMove, { toValue: 400, duration: 1000, })*/
+        ]).start()
 
     }
 
@@ -128,9 +146,12 @@ export default class ChompComponent extends React.Component {
             this.setState({ items });
             console.log(this.state.items)
         });
-
-
     }
+
+    componentWillUnmount() {
+        clearInterval(this.clockCall);
+    }
+
     render() {
         let imageGameBack = require("./back2.png");
         let gameOver = require("./Game-Over.png")
@@ -145,20 +166,8 @@ export default class ChompComponent extends React.Component {
             
         <ImageBackground source={imageGameBack} style={{width: '100%', height: '100%'}}>
         
-        <View style={{width: 500, height: 500, position: 'absolute', justifyContent: 'center'}}>
-                <TimerCountdown
-                    initialMilliseconds={5000}
-                    onTick={(milliseconds) => console.log("tick", milliseconds)}
-                    onExpire={() => {this._timesUp();}}
-                    formatMilliseconds={(milliseconds) => {
-                    const remainingSec = Math.round(milliseconds / 1000);
-                    const seconds = parseInt((remainingSec % 60).toString(), 10);
-                    const s = seconds < 10 ? '0' + seconds : seconds;
-                    return s;
-                    }}
-                    allowFontScaling={true}
-                    style={{ fontSize: 20 }}
-                />
+        <View style={{position: 'absolute', top: 25, right: 25}}>
+                <Text>{this.state.timer}</Text>
         </View>
 
         <Animated.View style={[styles.monBody,{height: this.state.monHeight}]}>
@@ -206,12 +215,14 @@ export default class ChompComponent extends React.Component {
 
 
         <View style={styles.button}>
+        {renderIf(this.state.startButtonVisible)(
           <Button
-            onPress={() => { this._nextWords(); this._runAnimation()}}
+            onPress={() => { this._startGame(); this._nextWords(); this._runAnimation()}}
             title="Start game!"
             color="#a0a0a0"
             accessibilityLabel="Learn more about this purple button"
           />
+          )}
         </View>
 
         <Animated.View style={[styles.greyScreen,{left: this.state.gameOverMove}]}>
@@ -276,9 +287,9 @@ const styles = StyleSheet.create({
     },
     buttonMove: {
         position: 'absolute',
-        width:200,
-        height:100,
-        top:500,
+        width: 200,
+        height: 100,
+        top: 500,
         opacity: 1,
         left: 76,
     },
