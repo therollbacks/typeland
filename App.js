@@ -12,6 +12,8 @@ import SignupView from "./components/signupcomponent"
 
 import HomeView from './view/testhomeview';
 import ChompView from './view/chompview';
+import GameOverView from './view/gameoverview';
+
 
 const RootStack = createStackNavigator(
   {
@@ -30,10 +32,10 @@ const RootStack = createStackNavigator(
         header: null
       }
     },
-    Signup:  {
-      screen: SignupView,
+    Over:  {
+      screen: GameOverView,
       navigationOptions: {
-        title: 'chomp',
+        title: 'game over',
         header: null
       }
     },
