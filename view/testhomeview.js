@@ -192,7 +192,7 @@ export default class HomeView extends Component {
                       image: 'http://pixelartmaker.com/art/717400a4542c897.png'
                     })}
                   activeOpacity={0.7}
-                  containerStyle={{marginTop: 100,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2 }}
+                  containerStyle={{marginTop: 125,marginBottom: 30, marginRight: 40, position: 'absolute', left: width/2 }}
                 />
 
                 <View style = {styles.button2, {top: this.state.movePlay, width: this.state.movePlayWidth, borderRadius: this.state.startBorderRadius, borderWidth: this.state.startBorderWidth, borderColor: this.state.startBorderColor}}>
