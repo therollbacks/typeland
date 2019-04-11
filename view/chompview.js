@@ -117,11 +117,21 @@ export default class ChompComponent extends React.Component {
     };
 
     _timesUp = () => {
-        if (this.state.badScore < 2) {
+        if (this.state.badScore == 0) {
             this.setState({
                 badScore: this.state.badScore + 1,
-                timer:5
+                timer:5,
             })
+            Animated.timing(this.state.monHeight, {toValue: 400, duration:1000}).start()
+
+        }
+        else if (this.state.badScore == 1) {
+            this.setState({
+                badScore: this.state.badScore + 1,
+                timer: 5,
+            })
+            Animated.timing(this.state.monHeight, {toValue: 500, duration: 1000}).start()
+    
         } else {
             Animated.sequence([
                 Animated.timing(this.state.monHeight, { toValue: 600, duration: 1000 }),
